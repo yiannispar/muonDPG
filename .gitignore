@@ -2,3 +2,4 @@ condor/*.sh
 condor/__pycache__
 condor/log/*
 condor/*.cc
+plotters/__pycache__/
