@@ -7,6 +7,7 @@ git clone https://github.com/yiannispar/muonDPG.git
 Run  
 ---  
 ```  
+voms-proxy-init -voms cms  
 cd condor  
 python3 run_nano.py --dataset <name of dataset> --exec <name of executable> --output <full path of output dir>  
 (--nFiles <number of files to run>) (--submit) (--jobFlav <condor job flabor>) (--submitName <condor submit filename>)  
