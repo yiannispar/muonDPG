@@ -12,8 +12,10 @@ cd condor
 python3 run_nano.py --dataset <name of dataset> --exec <name of executable> --output <full path of output dir>  
 (--nFiles <number of files to run>) (--submit) (--jobFlav <condor job flabor>) (--submitName <condor submit filename>)  
 ```  
+**Notes:**  
 If you run with ```(--submit)``` option then jobs will be automatically submitted to condor.  
 if not, then run ```condor_submit <filename>```  
+Name of executable is the filename of the code you want to run (under ```src``` directory, eg ```eff_nano.py```)  
 
 Make plots  
 ----------  
