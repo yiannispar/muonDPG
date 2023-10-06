@@ -12,7 +12,7 @@ python3 run_nano.py --dataset <name of dataset> --exec <name of executable> --ou
 (--nFiles <number of files to run>) (--submit) (--jobFlav <condor job flabor>) (--submitName <condor submit filename>)  
 ```  
 If you run with ```(--submit)``` option then jobs will be automatically submitted to condor.  
-if not, then run ```condor_submit submit <filename>```  
+if not, then run ```condor_submit <filename>```  
 
 Make plots  
 ----------  
