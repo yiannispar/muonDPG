@@ -1,11 +1,6 @@
 #! /usr/bin/env python
 
-########################################################
-## eff_l1T_eff.py   
-## A script to find L1T efficiency from L1Ntuples
-## Ioannis Paraskevas <ioannis.paraskevas@cern.ch>
-## adapted from Andrew Brinkerhoff
-########################################################
+## script to make efficiency plots using official NANOAOD
 
 import math
 import ROOT
