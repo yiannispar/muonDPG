@@ -1,2 +1,3 @@
 condor/*.sh
 condor/__pycache__
+condor/log/*
