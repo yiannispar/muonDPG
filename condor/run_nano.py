@@ -40,6 +40,10 @@ print("Dataset " + dataset)
 print(str(len(files_found)) + " files found")
 print("Will write output to " + args.output)
 
+## make log dir if not exists
+if not os.path.exists('log'):
+   os.makedirs('log')
+
 ## create the file list at the end of the submit file
 def format_files_in_queue(files_found):
     file_string = ""
