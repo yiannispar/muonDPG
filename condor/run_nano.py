@@ -1,6 +1,7 @@
 import argparse
 import sys
 import os
+import subprocess
 
 ## parse arguments
 parser = argparse.ArgumentParser()
@@ -14,10 +15,11 @@ parser.add_argument('--nFiles', type=str, help='number of files to run')
 args = parser.parse_args()
 
 ## load golden json file
+pwd = os.getcwd()
 json_files = {
-  "2023B": "/afs/cern.ch/user/i/iparaske/dpg_scripts/JSON/Cert_Collisions2023_eraB_366403_367079_Golden.json",
-  "2023C": "/afs/cern.ch/user/i/iparaske/dpg_scripts/JSON/Cert_Collisions2023_eraC_367095_368823_Golden.json",
-  "2023D": "/afs/cern.ch/user/i/iparaske/dpg_scripts/JSON/Cert_Collisions2023_eraD_369803_370790_Golden.json"
+  "2023B": pwd + "/../JSON/Cert_Collisions2023_eraB_366403_367079_Golden.json",
+  "2023C": pwd + "/../JSON/Cert_Collisions2023_eraC_367095_368823_Golden.json",
+  "2023D": pwd + "/../JSON/Cert_Collisions2023_eraD_369803_370790_Golden.json"
 }
 
 if args.exec == None:
@@ -62,10 +64,10 @@ def format_files_in_queue(files_found):
 ## write condor submit file
 condor_submit_file = open(args.submitName,"w")
 condor_submit_file.write('''
-executable = ''' + os.getcwd() + "/../run/run.sh" '''
+executable = ''' + os.getcwd() + "/run.sh" '''
 use_x509userproxy = true
 
-arguments = ''' + executable + ''' $(Item) ''' + args.output + ''' ''' + json_file_path + '''
+arguments = ''' + executable + ''' $(Item) ''' + args.output + ''' ''' + json_file_path + ''' ''' + pwd +''' 
 
 error   = log/err.$(Process)
 output  = log/out.$(Process)
