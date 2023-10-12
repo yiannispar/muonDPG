@@ -1,4 +1,4 @@
-condor/*.sh
+condor/submit_nano.sh
 condor/__pycache__
 condor/log/*
 condor/*.cc

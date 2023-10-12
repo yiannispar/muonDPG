@@ -13,6 +13,13 @@ parser.add_argument('--submitName', type=str, help='name of the condor submit fi
 parser.add_argument('--nFiles', type=str, help='number of files to run')
 args = parser.parse_args()
 
+## load golden json file
+json_files = {
+  "2023B": "/afs/cern.ch/user/i/iparaske/dpg_scripts/JSON/Cert_Collisions2023_eraB_366403_367079_Golden.json",
+  "2023C": "/afs/cern.ch/user/i/iparaske/dpg_scripts/JSON/Cert_Collisions2023_eraC_367095_368823_Golden.json",
+  "2023D": "/afs/cern.ch/user/i/iparaske/dpg_scripts/JSON/Cert_Collisions2023_eraD_369803_370790_Golden.json"
+}
+
 if args.exec == None:
     print("you need to specify the executable")
     sys.exit(-1)
@@ -39,10 +46,10 @@ print("Will run " + executable)
 print("Dataset " + dataset)
 print(str(len(files_found)) + " files found")
 print("Will write output to " + args.output)
-
-## make log dir if not exists
-if not os.path.exists('log'):
-   os.makedirs('log')
+era = dataset[dataset.find("Run")+3:+dataset.find("Run")+8] #find era from dataset name
+print("Era",era,"found")
+json_file_path = json_files[era]
+print("json file", json_file_path)
 
 ## create the file list at the end of the submit file
 def format_files_in_queue(files_found):
@@ -55,10 +62,10 @@ def format_files_in_queue(files_found):
 ## write condor submit file
 condor_submit_file = open(args.submitName,"w")
 condor_submit_file.write('''
-executable = ''' + os.getcwd() + "/../src/" + executable + '''
+executable = ''' + os.getcwd() + "/../run/run.sh" '''
 use_x509userproxy = true
 
-arguments = -i $(Item) -o ''' + args.output + '''
+arguments = ''' + executable + ''' $(Item) ''' + args.output + ''' ''' + json_file_path + '''
 
 error   = log/err.$(Process)
 output  = log/out.$(Process)
