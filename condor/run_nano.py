@@ -47,6 +47,8 @@ files_found = ['root://xrootd-cms.infn.it/'+_file.strip() for _file in query_out
 print("Will run " + executable)
 print("Dataset " + dataset)
 print(str(len(files_found)) + " files found")
+if not os.path.exists(args.output):
+    os.makedirs(args.output)
 print("Will write output to " + args.output)
 era = dataset[dataset.find("Run")+3:+dataset.find("Run")+8] #find era from dataset name
 print("Era",era,"found")

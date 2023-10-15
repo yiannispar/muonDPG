@@ -1,11 +1,15 @@
 import ROOT
 import argparse
 import utils
+import os
 
 ROOT.gStyle.SetOptStat(0)
 ROOT.gStyle.SetLegendBorderSize(0)
 ROOT.gStyle.SetTitleOffset(1.5,"Z")
 # ROOT.gStyle.SetPalette(ROOT.kBlueGreenYellow)
+latex = ROOT.TLatex()
+latex.SetTextSize(0.04)
+ROOT.gStyle.SetLegendTextSize(0.035)
 
 #parse arguments
 parser = argparse.ArgumentParser()
@@ -18,9 +22,8 @@ dataset_legend = args.legend
 output_dir = args.o
 input_dir = args.i
 
-latex = ROOT.TLatex()
-latex.SetTextSize(0.04)
-ROOT.gStyle.SetLegendTextSize(0.035)
+## merge root files
+utils.merge_root_files(input_dir)
 
 in_file = ROOT.TFile(input_dir + "merged_total.root","READ")
 c = ROOT.TCanvas("c","c",800,800)
