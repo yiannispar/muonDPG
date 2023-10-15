@@ -1,4 +1,5 @@
 import math
+import os
 
 def add_overflow(h):
     nbins = h.GetNbinsX()+1
@@ -9,3 +10,10 @@ def add_overflow(h):
     h.SetBinContent(nbins, 0)
     h.SetBinError(nbins, 0)
     return h
+
+def merge_root_files(dir):
+    pwd = os.getcwd()
+    os.chdir(dir)
+    os.system('rm -rf merged_total.root')
+    os.system('hadd merged_total.root *.root')
+    os.chdir(pwd)
