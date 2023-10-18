@@ -1,6 +1,6 @@
 ############ settings #############
-root_files_dir=/afs/cern.ch/user/n/nplastir/Trigger/muonDPG/output/out_misid_TP/
-output_dir=/afs/cern.ch/user/n/nplastir/Trigger/muonDPG/plots/
+root_files_dir=/afs/cern.ch/user/n/nplastir/Trigger/CMSSW_13_0_3/src/muonDPG/output/out_misid_TP/
+output_dir=/afs/cern.ch/user/n/nplastir/Trigger/CMSSW_13_0_3/src/muonDPG/plots/
 dataset_legend="2023Dv1"
 ###################################
 

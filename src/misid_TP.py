@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 
-## script to make efficiency plots using official NANOAOD
+## script to make plots for muon charge misidentification using official NANOAOD
 
 import math
 import ROOT
@@ -8,6 +8,8 @@ from array import array
 import argparse
 import sys
 import os.path
+import FWCore.PythonUtilities.LumiList as LumiList
+
 
 ## True if passed the trigger (bit indices 3 and 10)
 def passedTrig(muon_eta, muon_phi, trg_eta, trg_phi, trg_id, filterBits):
@@ -53,6 +55,7 @@ latex.SetTextSize(0.04)
 parser = argparse.ArgumentParser()
 parser.add_argument('-i', type=str, help='input file')
 parser.add_argument('-o', type=str, help='output dir')
+parser.add_argument('--json', type=str, help='json file')
 args = parser.parse_args()
 
 input_file = args.i
@@ -128,12 +131,19 @@ for TF in trig_TF.keys():
   h_misid_l1_phi_eta[key].SetDirectory(0)
 ## =========================================
 
+## load json file
+json_file = LumiList.LumiList(filename = args.json)
+
 # Loop over over events in TFile
 for iEvt in range(tree.GetEntries()):
   if MAX_EVT > 0 and iEvt > MAX_EVT: break
   if iEvt % PRT_EVT == 0: print ('Event #', iEvt)
 
   tree.GetEntry(iEvt)
+
+  run = tree.run
+  luminosityBlock = tree.luminosityBlock
+  if not json_file.contains(run,luminosityBlock): continue
 
   # Require HLT muon trigger
   if tree.HLT_IsoMu27 != 1 or tree.HLT_Mu50 != 1: continue
