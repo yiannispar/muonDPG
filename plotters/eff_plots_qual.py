@@ -7,7 +7,16 @@ ROOT.gStyle.SetLegendBorderSize(0)
 ROOT.gStyle.SetTitleOffset(1.5, "Z")
 latex = ROOT.TLatex()
 latex.SetTextSize(0.04)
+latex.SetTextFont(42)
 ROOT.gStyle.SetLegendTextSize(0.035)
+
+# Colors
+color_0 = ROOT.TColor.GetColor(87,144,252) #blue
+color_1 = ROOT.TColor.GetColor(248,156,32) #orange
+color_2 = ROOT.TColor.GetColor(228,37,54) #red
+color_3 = ROOT.TColor.GetColor(150,74,139) #purple
+color_4 = ROOT.TColor.GetColor(156,156,161) #gray
+color_5 = ROOT.TColor.GetColor(122,33,221) #purple
 
 # Parse arguments
 parser = argparse.ArgumentParser()
@@ -23,10 +32,10 @@ input_dir = args.i
 utils.merge_root_files(input_dir)
 
 in_file = ROOT.TFile(input_dir + "merged_total.root", "READ")
-c = ROOT.TCanvas("c", "c", 800, 600)
+c = ROOT.TCanvas("c", "c", 800, 800)
 c.SetGrid()
 
-WPs = ["SingleMu1_22", "SingleMu2_22", "SingleMu3_22", "SingleMu4_22"]
+WPs = ["SingleMu1_10", "SingleMu2_10", "SingleMu3_10", "SingleMu4_10"]
 
 vars_title = {
     "eta": "#eta_{Reco}",
@@ -36,7 +45,8 @@ vars_title = {
 }
 
 # Define marker colors for each WP
-marker_colors = [ROOT.kBlack, ROOT.kRed, ROOT.kBlue, ROOT.kYellow]
+# marker_colors = [ROOT.kBlack, ROOT.kRed, ROOT.kBlue, ROOT.kCyan]
+marker_colors = [color_0, color_1, color_2, color_5]
 
 # Loop over each variable
 for var in vars_title:
@@ -44,7 +54,7 @@ for var in vars_title:
     # Clear histograms list for each variable
     eff_histograms = []
 
-    leg = ROOT.TLegend(0.55, 0.13, 0.8, 0.38)
+    leg = ROOT.TLegend(0.65, 0.15, 0.95, 0.48)
     leg.SetFillStyle(0)
 
     for i, wp in enumerate(WPs):
@@ -77,11 +87,16 @@ for var in vars_title:
 
     # Draw legend and additional text
     leg.Draw()
-    latex.DrawLatexNDC(0.78, 0.91, dataset_legend)
+    latex.SetTextSize(0.04)
+    latex.DrawLatexNDC(0.80,0.91,dataset_legend)
     # latex.DrawLatexNDC(0.54, 0.48, "p^{#mu,L1}_{T} #geq 22 GeV")
     # if var == "eta" or var == "phi" or var == "nPV":
     #     latex.DrawLatexNDC(0.54, 0.41, "p^{#mu,Reco}_{T} #geq 26 GeV")
-    latex.DrawLatexNDC(0.1, 0.91, "#bf{ #font[22]{CMS} #font[72]{Preliminary} }")
+    latex.SetTextSize(0.045)
+    latex.DrawLatexNDC(0.1, 0.91, "#font[61]{CMS}")
+    latex.SetTextSize(0.0346)
+    latex.DrawLatexNDC(0.195, 0.91, "#font[52]{Internal}")
+    latex.DrawLatexNDC(0.69, 0.48, "#bf{p^{#mu,L1}_{T} #geq 10 GeV}")
     
     c.Update() 
     if var == "pt":# Ensure canvas is updated before modifying histogram settings
@@ -93,5 +108,4 @@ for var in vars_title:
 
 # Close input file
 in_file.Close()
-
 
