@@ -35,7 +35,7 @@ in_file = ROOT.TFile(input_dir + "merged_total.root", "READ")
 c = ROOT.TCanvas("c", "c", 800, 800)
 c.SetGrid()
 
-WPs = ["SingleMu1_10", "SingleMu2_10", "SingleMu3_10", "SingleMu4_10"]
+WPs = ["SingleMu1_22", "SingleMu2_22", "SingleMu3_22", "SingleMu4_22"]
 
 vars_title = {
     "eta": "#eta_{Reco}",
