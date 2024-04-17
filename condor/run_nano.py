@@ -19,7 +19,8 @@ pwd = os.getcwd()
 json_files = {
   "2023B": pwd + "/../JSON/Cert_Collisions2023_eraB_366403_367079_Golden.json",
   "2023C": pwd + "/../JSON/Cert_Collisions2023_eraC_367095_368823_Golden.json",
-  "2023D": pwd + "/../JSON/Cert_Collisions2023_eraD_369803_370790_Golden.json"
+  "2023D": pwd + "/../JSON/Cert_Collisions2023_eraD_369803_370790_Golden.json",
+  "2024B": pwd + "/../JSON/Cert_Collisions2024_eraB_366403_367079_Golden.json"
 }
 
 if args.exec == None:
