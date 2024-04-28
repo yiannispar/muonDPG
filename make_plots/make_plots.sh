@@ -72,7 +72,7 @@ python3 eff_plots_qual.py -o $output_dir/eff_qual/ -i $root_files_dir/eff_qual/ 
 
 ############ Efficiency vs Run #############
 ## merge root files
-cd $root_files_dir/eff_qual/
+cd $root_files_dir/eff_run/
 rm -rf merged_total.root
 hadd merged_total.root *.root
 
