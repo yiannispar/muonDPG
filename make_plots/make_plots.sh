@@ -21,6 +21,13 @@ echo "Dataset legend: ${era}"
 
 mkdir -p $output_dir
 
+mkdir -p $output_dir/eff/
+mkdir -p $output_dir/eff_qual/
+mkdir -p $output_dir/eff_run/
+mkdir -p $output_dir/misid/
+mkdir -p $output_dir/misid_TP/
+mkdir -p $output_dir/misid_run/
+
 
 ############ Luminosity ############
 
@@ -94,14 +101,14 @@ cd $current_dir/../plotters/
 
 python3 misid_vs_run_plots.py -o $output_dir/misid_run/ -i $root_files_dir/misid_run/ --legend "$era" 
 
-############ Charge misidentification with Tag & Probe #############
-## merge root files
-cd $root_files_dir/misid_TP/
-rm -rf merged_total.root
-hadd merged_total.root *.root
+# ############ Charge misidentification with Tag & Probe #############
+# ## merge root files
+# cd $root_files_dir/misid_TP/
+# rm -rf merged_total.root
+# hadd merged_total.root *.root
 
-cd $current_dir/../plotters/
+# cd $current_dir/../plotters/
 
-python3 misid_plots_TP.py -o $output_dir/misid_TP/ -i $root_files_dir/misid_TP/ --legend "$era" 
+# python3 misid_plots_TP.py -o $output_dir/misid_TP/ -i $root_files_dir/misid_TP/ --legend "$era" 
 
 cd $current_dir
