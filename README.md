@@ -28,3 +28,22 @@ cd make_plots
 . make_eff_plots.sh  
 ```  
 You can change settings by opening ```make_eff_plots.sh```   
+
+
+Batch Submission
+----------
+Before submitting the jobs make sure that you have enabled the certificate for the DAS.
+
+```
+voms-proxy-init -voms cms 
+```
+
+```
+cd muonDPG/condor
+./batch_submission.sh <name of dataset>
+```
+
+```
+cd muonDPG/make_plots
+./make_plots.sh <era of dataset>
+```
