@@ -20,7 +20,8 @@ json_files = {
   "2023B": pwd + "/../JSON/Cert_Collisions2023_eraB_366403_367079_Golden.json",
   "2023C": pwd + "/../JSON/Cert_Collisions2023_eraC_367095_368823_Golden.json",
   "2023D": pwd + "/../JSON/Cert_Collisions2023_eraD_369803_370790_Golden.json",
-  "2024B": pwd + "/../JSON/Cert_Collisions2024_eraB_366403_367079_Golden.json"
+  "2024B": pwd + "/../JSON/Cert_Collisions2024_378981_379075_Golden.json",
+  "2024C": pwd + "/../JSON/Cert_Collisions2024_378981_379075_Golden.json",
 }
 
 if args.exec == None:
@@ -55,6 +56,8 @@ era = dataset[dataset.find("Run")+3:+dataset.find("Run")+8] #find era from datas
 print("Era",era,"found")
 json_file_path = json_files[era]
 print("json file", json_file_path)
+exec_name=executable[:-3]
+muon = dataset[dataset.find("Muon")+4]
 
 ## create the file list at the end of the submit file
 def format_files_in_queue(files_found):
@@ -76,6 +79,7 @@ error   = log/err.$(Process)
 output  = log/out.$(Process)
 log     = log/logFile.log
 
+JobBatchName = muonDPG_''' + era + '''_''' +muon+'''_''' + exec_name + '''
 +JobFlavour = "''' + args.jobFlav + '''"
     
 queue 1 in (''' + format_files_in_queue(files_found) + ''')  
