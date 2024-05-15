@@ -2,6 +2,8 @@
 
 ## script to make plots for muon charge misidentification using official NANOAOD
 
+#NOTE: There is a chance that some offline muons are matched with multiple L1 muons. Check charge_misid_debug branch that resolves this by brute forcing only one match. 
+
 import math
 import ROOT
 from array import array
@@ -203,7 +205,7 @@ for iEvt in range(tree.GetEntries()):
       l1_pt = tree.L1Mu_pt[iL1]
       l1_charge = tree.L1Mu_hwCharge[iL1]
 
-      #For some reason charges at L1 level are messed up. If q = 0 change it to +1 and if q = 1 change it to -1 
+      #For some reason charges at L1 level are binary. If q = 0 change it to +1 and if q = 1 change it to -1 
       if l1_charge == 0:
         l1_charge = 1
       else:
