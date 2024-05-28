@@ -47,3 +47,13 @@ cd muonDPG/condor
 cd muonDPG/make_plots
 ./make_plots.sh <era of dataset>
 ```
+
+Comparison Plots
+----------
+After the completion of the above, you can compare two different datasets by simply running 
+
+```
+cd muonDPG/make_plots
+./make_comparison_plots.sh <era of 1st dataset> <era of 2nd dataset>
+```
+**NOTE:** You can change the way the ratio plot is created by simply changing the order in which the eras are given
