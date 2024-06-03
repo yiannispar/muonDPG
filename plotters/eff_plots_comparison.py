@@ -518,7 +518,7 @@ for wp in WPs:
         latex2.SetTextFont(42)
         latex2.SetTextSize(0.095)
         latex2.SetTextAngle(90)
-        latex2.DrawLatexNDC(0.04, 0.37, f"{dataset_legend1}/{dataset_legend2}")
+        latex2.DrawLatexNDC(0.04, 0.37, f"{dataset_legend2}/{dataset_legend1}")
 
         pad2.Update()
 
@@ -665,7 +665,7 @@ for wp in WPs:
         latex2.SetTextFont(42)
         latex2.SetTextSize(0.095)
         latex2.SetTextAngle(90)
-        latex2.DrawLatexNDC(0.04, 0.37, f"{dataset_legend1}/{dataset_legend2}")
+        latex2.DrawLatexNDC(0.04, 0.37, f"{dataset_legend2}/{dataset_legend1}")
 
         pad2.Update()
 
@@ -813,7 +813,7 @@ for wp in WPs:
         latex2.SetTextFont(42)
         latex2.SetTextSize(0.095)
         latex2.SetTextAngle(90)
-        latex2.DrawLatexNDC(0.04, 0.37, f"{dataset_legend1}/{dataset_legend2}")
+        latex2.DrawLatexNDC(0.04, 0.37, f"{dataset_legend2}/{dataset_legend1}")
 
         pad2.Update()
 
