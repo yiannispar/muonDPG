@@ -1,13 +1,13 @@
 import argparse
 import sys
 import os
-import subprocess
 
 ## parse arguments
 parser = argparse.ArgumentParser()
 parser.add_argument('--exec', type=str, help='executable')
 parser.add_argument('--dataset', type=str, help='dataset')
 parser.add_argument('--submit', help='submit to condor',action='store_true')
+parser.add_argument('--no-json', help='do not use any json file',action='store_true')
 parser.add_argument('--jobFlav', type=str, help='condor job flavour', default="espresso")
 parser.add_argument('-o','--output', type=str, help='output dir')
 parser.add_argument('--submitName', type=str, help='name of the condor submit file', default="submit_nano.sh")
@@ -50,10 +50,15 @@ print(str(len(files_found)) + " files found")
 if not os.path.exists(args.output):
     os.makedirs(args.output)
 print("Will write output to " + args.output)
-era = dataset[dataset.find("Run")+3:+dataset.find("Run")+8] #find era from dataset name
-print("Era",era,"found")
-json_file_path = json_files[era]
-print("json file", json_file_path)
+
+if args.no_json:
+    print("No json file will be used")
+    json_file_path = ""
+else:
+    era = dataset[dataset.find("Run")+3:+dataset.find("Run")+8] #find era from dataset name
+    print("Era",era,"found")
+    json_file_path = json_files[era]
+    print("json file", json_file_path)
 
 ## create the file list at the end of the submit file
 def format_files_in_queue(files_found):
@@ -67,7 +72,6 @@ def format_files_in_queue(files_found):
 condor_submit_file = open(args.submitName,"w")
 condor_submit_file.write('''
 executable = ''' + os.getcwd() + "/run.sh" '''
-use_x509userproxy = true
 
 arguments = ''' + executable + ''' $(Item) ''' + args.output + ''' ''' + json_file_path + ''' ''' + pwd +''' 
 

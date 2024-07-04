@@ -11,6 +11,8 @@ pwd=$5
 cd $pwd/../../
 eval `scramv1 runtime -sh`
 
+export X509_USER_PROXY=/afs/cern.ch/user/i/iparaske/private/x509up
+
 ## run executable
 cd $pwd/../src/
 python3 $exec -i $infile -o $output_dir --json $json_file
