@@ -82,7 +82,8 @@ tree.Add(input_file)
 
 ## Trigger settings
 trig_WP = {}
-trig_WP['SingleMu']  = [12]
+trig_WP['SingleMu1']  = [12]
+trig_WP['SingleMu2']  = [8]
 
 trig_TF = {}
 trig_TF['uGMT'] = [0.00, 2.40]
@@ -92,7 +93,8 @@ trig_TF['EMTF'] = [1.24, 2.40]
 
 
 trg_pt = {}
-trg_pt['SingleMu']  = [22]
+trg_pt['SingleMu1']  = [22]
+trg_pt['SingleMu2']  = [5]
 
 ## ================ Histograms ======================
 scale_pt_temp = [0, 2, 3, 4, 5, 6, 7, 8, 10, 12, 14, 16, 18, 20, 22, 25, 30, 35, 45, 60, 75, 100, 140, 160, 180, 200, 250, 300, 500, 1000]
@@ -167,6 +169,8 @@ for iEvt in range(tree.GetEntries()):
   iTags, iL1Tags, iProbes = [], [], []
 
   nPV = tree.PV_npvs
+
+  # if run > 381316: continue ## EMTF issue: https://twiki.cern.ch/twiki/bin/viewauth/CMS/L1KnownIssues#Muons
 
   ##########################################################
   ###  Loop over RECO muons to find all valid tag muons  ###

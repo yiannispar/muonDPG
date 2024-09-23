@@ -143,7 +143,7 @@ for iEvt in range(tree.GetEntries()):
 
   run = tree.run
   luminosityBlock = tree.luminosityBlock
-  #if not json_file.contains(run,luminosityBlock): continue
+  if not json_file.contains(run,luminosityBlock): continue
 
   # if not (tree.L1_UnprefireableEvent or tree.L1_FirstBunchInTrain): continue
   if not tree.L1_UnprefireableEvent: continue
