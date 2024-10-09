@@ -60,6 +60,8 @@ era = dataset[dataset.find("Run")+3:+dataset.find("Run")+8] #find era from datas
 print("Era",era,"found")
 json_file_path = json_files[era]
 print("json file", json_file_path)
+exec_name=executable[:-3]
+muon = dataset[dataset.find("Muon")+4]
 
 ## create the file list at the end of the submit file
 def format_files_in_queue(files_found):
@@ -81,6 +83,7 @@ error   = log/err.$(Process)
 output  = log/out.$(Process)
 log     = log/logFile.log
 
+JobBatchName = muonDPG_''' + era + '''_''' +muon+'''_''' + exec_name + '''
 +JobFlavour = "''' + args.jobFlav + '''"
     
 queue 1 in (''' + format_files_in_queue(files_found) + ''')  
