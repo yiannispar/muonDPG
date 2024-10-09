@@ -25,7 +25,7 @@ json_files = {
   "2024D": pwd + "/../JSON/Cert_Collisions2024_eraD_Golden.json",
   "2024E": pwd + "/../JSON/Cert_Collisions2024_eraE_Golden.json",
   "2024F": pwd + "/../JSON/Cert_Collisions2024_eraF_Golden.json",
-  "2024G": pwd + "/../JSON/Cert_Collisions2024_378981_385194_Golden.json"
+  "2024G": pwd + "/../JSON/Cert_Collisions2024_378981_386071_Golden.json"
 }
 
 if args.exec == None:
