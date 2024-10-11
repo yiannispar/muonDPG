@@ -27,12 +27,39 @@ parser.add_argument('-o', type=str, help='output dir')
 parser.add_argument('-i', type=str, help='input dir dir')
 args = parser.parse_args()
 
-dataset_legend = args.legend
+if args.legend == '2024B':
+    dataset_legend ='2024B (0.13 fb^{-1})'
+    dataset_x1=0.64
+    dataset_x2=0.59
+elif args.legend == '2024C':
+    dataset_legend ='2024C (7.24 fb^{-1})'
+    dataset_x1=0.64
+    dataset_x2=0.59
+elif args.legend == '2024D':
+    dataset_legend ='2024D (7.96 fb^{-1})'
+    dataset_x1=0.64
+    dataset_x2=0.59
+elif args.legend == '2024E':
+    dataset_legend ='2024E (11.32 fb^{-1})'
+    dataset_x1=0.62
+    dataset_x2=0.57
+elif args.legend == '2024F':
+    dataset_legend ='2024F (27.76 fb^{-1})'
+    dataset_x1=0.62
+    dataset_x2=0.57
+elif args.legend == '2024':
+    dataset_legend ='97 fb^{-1} (13.6 TeV)'
+    dataset_x1=0.62
+    dataset_x2=0.57
+else:
+    dataset_legend = args.legend
+    dataset_x1=0.80
+    dataset_x2=0.75
 output_dir = args.o
 input_dir = args.i
 
 ## merge root files
-utils.merge_root_files(input_dir)
+# utils.merge_root_files(input_dir)
 
 in_file = ROOT.TFile(input_dir + "merged_total.root","READ")
 c = ROOT.TCanvas("c","c",800,800)
@@ -61,9 +88,9 @@ for wp in WPs:
         key = wp + "_" + var
         c.SetLogx(0)
         values = wp_values[wp]
-        quality_label = f"#bf{{L1 quality #geq {values['quality']}}}"
-        pt_l1_label = f"#bf{{p^{{#mu,L1}}_{{T}} #geq {values['pt_l1']} GeV}}"
-        pt_reco_label = f"#bf{{p^{{#mu,Reco}}_{{T}} #geq {values['pt_reco']} GeV}}"
+        quality_label = f"L1 quality #geq {values['quality']}"
+        pt_l1_label = f"p^{{#mu,L1}}_{{T}} #geq {values['pt_l1']} GeV"
+        pt_reco_label = f"p^{{#mu,Reco}}_{{T}} #geq {values['pt_reco']} GeV"
 
         h_passed_uGMT = in_file.Get("uGMT_" + key + "_passed")
         h_passed_uGMT = utils.add_overflow(h_passed_uGMT)
@@ -134,15 +161,15 @@ for wp in WPs:
         leg.Draw()
 
         latex.SetTextSize(0.04)
-        latex.DrawLatexNDC(0.80,0.91,dataset_legend)
+        latex.DrawLatexNDC(dataset_x1,0.91,dataset_legend)
         if var == "eta" or var == "phi" or var == "nPV":
             # latex.DrawLatexNDC(0.54, 0.41, "p^{#mu,Reco}_{T} #geq 5 GeV")
-            latex.DrawLatexNDC(0.62,0.52,quality_label)
-            latex.DrawLatexNDC(0.64, 0.45, pt_l1_label)
-            latex.DrawLatexNDC(0.62, 0.38, pt_reco_label)
+            latex.DrawLatexNDC(0.64,0.53,quality_label)
+            latex.DrawLatexNDC(0.64, 0.46, pt_l1_label)
+            latex.DrawLatexNDC(0.64, 0.39, pt_reco_label)
         else:
-            latex.DrawLatexNDC(0.62,0.43,quality_label)
-            latex.DrawLatexNDC(0.64, 0.38, pt_l1_label)
+            latex.DrawLatexNDC(0.64,0.44,quality_label)
+            latex.DrawLatexNDC(0.64, 0.39, pt_l1_label)
         latex.SetTextSize(0.045)
         latex.DrawLatexNDC(0.1, 0.91, "#font[61]{CMS}")
         latex.SetTextSize(0.0346)
@@ -151,6 +178,7 @@ for wp in WPs:
 
 
         c.SaveAs(output_dir + "eff_" + key + ".png")
+        c.SaveAs(output_dir + "eff_" + key + ".pdf")
 
 c2 = ROOT.TCanvas("c2","c2",800,800)
 c2.SetLeftMargin(0.11)
@@ -165,7 +193,7 @@ h_eff_uGMT = ROOT.TEfficiency(h_passed_uGMT,h_total_uGMT)
 h_eff_uGMT.SetTitle(";#eta_{Reco};#phi_{Reco} [rad];Efficiency")
 h_eff_uGMT.Draw("colz")
 latex.SetTextSize(0.04)
-latex.DrawLatexNDC(0.75,0.91,dataset_legend)
+latex.DrawLatexNDC(dataset_x2,0.91,dataset_legend)
 latex.SetTextSize(0.045)
 latex.DrawLatexNDC(0.11, 0.91, "#font[61]{CMS}")
 latex.SetTextSize(0.0346)
@@ -198,6 +226,7 @@ latex.DrawLatexNDC(0.18,0.87,"EMTF")
 latex.DrawLatexNDC(0.605,0.87,"OMTF")
 latex.DrawLatexNDC(0.73,0.87,"EMTF")
 c2.SaveAs(output_dir + "eff_" + key + ".png")
+c2.SaveAs(output_dir + "eff_" + key + ".pdf")
 
 key = "SingleMu1_22_phi_eta" 
 h_passed_uGMT = in_file.Get("uGMT_" + key + "_passed")
@@ -206,7 +235,7 @@ h_eff_uGMT = ROOT.TEfficiency(h_passed_uGMT,h_total_uGMT)
 h_eff_uGMT.SetTitle(";#eta_{Reco};#phi_{Reco} [rad];Efficiency")
 h_eff_uGMT.Draw("colz")
 latex.SetTextSize(0.04)
-latex.DrawLatexNDC(0.75,0.91,dataset_legend)
+latex.DrawLatexNDC(dataset_x2,0.91,dataset_legend)
 latex.SetTextSize(0.045)
 latex.DrawLatexNDC(0.11, 0.91, "#font[61]{CMS}")
 latex.SetTextSize(0.0346)
@@ -239,3 +268,4 @@ latex.DrawLatexNDC(0.18,0.87,"EMTF")
 latex.DrawLatexNDC(0.605,0.87,"OMTF")
 latex.DrawLatexNDC(0.73,0.87,"EMTF")
 c2.SaveAs(output_dir + "eff_" + key + ".png")
+c2.SaveAs(output_dir + "eff_" + key + ".pdf")

@@ -25,7 +25,27 @@ parser.add_argument('-o', type=str, help='Output directory')
 parser.add_argument('-i', type=str, help='Input directory')
 args = parser.parse_args()
 
-dataset_legend = args.legend
+if args.legend == '2024B':
+    dataset_legend ='2024B (0.13 fb^{-1})'
+    dataset_x1=0.64
+elif args.legend == '2024C':
+    dataset_legend ='2024C (7.24 fb^{-1})'
+    dataset_x1=0.64
+elif args.legend == '2024D':
+    dataset_legend ='2024D (7.96 fb^{-1})'
+    dataset_x1=0.64
+elif args.legend == '2024E':
+    dataset_legend ='2024E (11.32 fb^{-1})'
+    dataset_x1=0.62
+elif args.legend == '2024F':
+    dataset_legend ='2024F (27.76 fb^{-1})'
+    dataset_x1=0.62
+elif args.legend == '2024':
+    dataset_legend ='97 fb^{-1} (13.6 TeV)'
+    dataset_x1=0.64
+else:
+    dataset_legend = args.legend
+    dataset_x1=0.80
 output_dir = args.o
 input_dir = args.i
 
@@ -88,7 +108,7 @@ for var in vars_title:
     # Draw legend and additional text
     leg.Draw()
     latex.SetTextSize(0.04)
-    latex.DrawLatexNDC(0.80,0.91,dataset_legend)
+    latex.DrawLatexNDC(dataset_x1,0.91,dataset_legend)
     # latex.DrawLatexNDC(0.54, 0.48, "p^{#mu,L1}_{T} #geq 22 GeV")
     # if var == "eta" or var == "phi" or var == "nPV":
     #     latex.DrawLatexNDC(0.54, 0.41, "p^{#mu,Reco}_{T} #geq 26 GeV")

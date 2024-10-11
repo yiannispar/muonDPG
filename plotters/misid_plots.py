@@ -27,7 +27,34 @@ parser.add_argument('-o', type=str, help='output dir')
 parser.add_argument('-i', type=str, help='input dir dir')
 args = parser.parse_args()
 
-dataset_legend = args.legend
+if args.legend == '2024B':
+    dataset_legend ='2024B (0.13 fb^{-1})'
+    dataset_x1=0.64
+    dataset_x2=0.59
+elif args.legend == '2024C':
+    dataset_legend ='2024C (7.24 fb^{-1})'
+    dataset_x1=0.64
+    dataset_x2=0.59
+elif args.legend == '2024D':
+    dataset_legend ='2024D (7.96 fb^{-1})'
+    dataset_x1=0.64
+    dataset_x2=0.59
+elif args.legend == '2024E':
+    dataset_legend ='2024E (11.32 fb^{-1})'
+    dataset_x1=0.62
+    dataset_x2=0.57
+elif args.legend == '2024F':
+    dataset_legend ='2024F (27.76 fb^{-1})'
+    dataset_x1=0.62
+    dataset_x2=0.57
+elif args.legend == '2024':
+    dataset_legend ='97 fb^{-1} (13.6 TeV)'
+    dataset_x1=0.62
+    dataset_x2=0.57
+else:
+    dataset_legend = args.legend
+    dataset_x1=0.80
+    dataset_x2=0.75
 output_dir = args.o
 input_dir = args.i
 
@@ -114,8 +141,8 @@ for var in vars_title:
     leg.Draw()
 
     latex.SetTextSize(0.04)
-    latex.DrawLatexNDC(0.80,0.91,dataset_legend)
-    latex.DrawLatexNDC(0.54,0.6,"Tight L1 quality")
+    latex.DrawLatexNDC(dataset_x1,0.91,dataset_legend)
+    latex.DrawLatexNDC(0.6,0.6,"Tight L1 quality")
     #latex.DrawLatexNDC(0.54, 0.48, "p^{#mu,L1}_{T} #geq 22 GeV")
     #if var == "eta" or var == "phi" or var == "nPV":
         # latex.DrawLatexNDC(0.54, 0.41, "p^{#mu,Reco}_{T} #geq 5 GeV")
@@ -126,6 +153,7 @@ for var in vars_title:
     latex.DrawLatexNDC(0.195, 0.91, "#font[52]{Internal}")
 
     c.SaveAs(output_dir + "misid" + key + ".png")
+    c.SaveAs(output_dir + "misid" + key + ".pdf")
 
 
 c2 = ROOT.TCanvas("c2","c2",800,800)
@@ -141,7 +169,7 @@ h_misid_uGMT = in_file.Get("h_misid_phi_etauGMT_" )
 h_misid_uGMT.SetTitle(";#eta_{Reco};#phi_{Reco} [rad]; Charge misidentification")
 h_misid_uGMT.Draw("colz")
 latex.SetTextSize(0.04)
-latex.DrawLatexNDC(0.75,0.91,dataset_legend)
+latex.DrawLatexNDC(dataset_x2,0.91,dataset_legend)
 latex.SetTextSize(0.045)
 latex.DrawLatexNDC(0.11, 0.91, "#font[61]{CMS}")
 latex.SetTextSize(0.0346)
@@ -174,6 +202,7 @@ latex.DrawLatexNDC(0.18,0.87,"EMTF")
 latex.DrawLatexNDC(0.605,0.87,"OMTF")
 latex.DrawLatexNDC(0.73,0.87,"EMTF")
 c2.SaveAs(output_dir + "misid" + key2 + ".png")
+c2.SaveAs(output_dir + "misid" + key2 + ".pdf")
 
 ##l1 eta vs l1 phi
 
@@ -181,7 +210,7 @@ h_l1_misid_uGMT = in_file.Get("h_misid_l1_phi_etauGMT_" )
 h_l1_misid_uGMT.SetTitle(";L1#eta;L1#phi [rad]; Charge misidentification")
 h_l1_misid_uGMT.Draw("colz")
 latex.SetTextSize(0.04)
-latex.DrawLatexNDC(0.75,0.91,dataset_legend)
+latex.DrawLatexNDC(dataset_x2,0.91,dataset_legend)
 latex.SetTextSize(0.045)
 latex.DrawLatexNDC(0.11, 0.91, "#font[61]{CMS}")
 latex.SetTextSize(0.0346)
@@ -214,6 +243,7 @@ latex.DrawLatexNDC(0.18,0.87,"EMTF")
 latex.DrawLatexNDC(0.605,0.87,"OMTF")
 latex.DrawLatexNDC(0.73,0.87,"EMTF")
 c2.SaveAs(output_dir + "misid_l1" + key2 + ".png")
+c2.SaveAs(output_dir + "misid_l1" + key2 + ".pdf")
 
 #Difference of eta_phi reco vs eta_phi L1
 
@@ -226,7 +256,7 @@ hist_difference.Add(h_hist2, -1)
 hist_difference.SetTitle(";#eta;#phi [rad]; Charge misidentification")
 hist_difference.Draw("colz")
 latex.SetTextSize(0.04)
-latex.DrawLatexNDC(0.75,0.91,dataset_legend)
+latex.DrawLatexNDC(dataset_x2,0.91,dataset_legend)
 latex.SetTextSize(0.045)
 latex.DrawLatexNDC(0.11, 0.91, "#font[61]{CMS}")
 latex.SetTextSize(0.0346)
