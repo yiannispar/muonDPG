@@ -18,7 +18,7 @@ if [ -z "$year_run" ]; then
 fi
 
 # Construct the output directory path
-output_dir="/eos/user/n/nplastir/Trigger/Golden/files/$year_run"
+output_dir="/eos/user/n/nplastir/Trigger/DPS_2024/files/$year_run"
 
 # Create the output directory if it doesn't exist
 mkdir -p "$output_dir"
@@ -31,10 +31,10 @@ python3 run_nano.py --dataset "$dataset" --exec eff_nano_2WP.py --output "$outpu
 
 python3 run_nano.py --dataset "$dataset" --exec eff_vs_qual.py --output "$output_dir/eff_qual/" --jobFlav workday --submitName eff_qual --submit 
 
-python3 run_nano.py --dataset "$dataset" --exec eff_vs_run.py --output "$output_dir/eff_run/" --jobFlav workday --submitName eff_run --submit 
+# python3 run_nano.py --dataset "$dataset" --exec eff_vs_run.py --output "$output_dir/eff_run/" --jobFlav workday --submitName eff_run --submit 
 
 python3 run_nano.py --dataset "$dataset" --exec misid.py --output "$output_dir/misid/" --jobFlav workday --submitName misid --submit 
 
-python3 run_nano.py --dataset "$dataset" --exec misid_vs_run.py --output "$output_dir/misid_run/" --jobFlav workday --submitName misid_run --submit 
+# python3 run_nano.py --dataset "$dataset" --exec misid_vs_run.py --output "$output_dir/misid_run/" --jobFlav workday --submitName misid_run --submit 
 
 # python3 run_nano.py --dataset "$dataset" --exec misid_TP.py --output "$output_dir/misid_TP/" --jobFlav workday --submitName misid_TP --submit 
