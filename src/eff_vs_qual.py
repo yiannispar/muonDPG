@@ -321,7 +321,7 @@ for iEvt in range(tree.GetEntries()):
           if recoPt > pt + 4:
             h_eff_eta[key].Fill(matched,recoEta)
             h_eff_phi[key].Fill(matched,recoPhi)
-            #h_eff_nPV[key].Fill(matched,nPV)  
+            h_eff_nPV[key].Fill(matched,nPV)  
             h_eff_phi_eta[key].Fill(matched,recoEta,recoPhi)
 
             ## End loop: for iL1 in range(tree.l1mu_size):
