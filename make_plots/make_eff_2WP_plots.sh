@@ -1,7 +1,7 @@
 ############ settings #############
-root_files_dir=/eos/user/n/nplastir/Trigger/Golden/files/2024B/eff_2WP/
-output_dir=/eos/user/n/nplastir/Trigger/Golden/plots/2024B/eff_2WP/
-dataset_legend="2024B"
+root_files_dir=/eos/user/n/nplastir/Trigger/DPS_2024/files/2024/eff_2WP/
+output_dir=/eos/user/n/nplastir/Trigger/DPS_2024/plots/2024/eff_2WP/
+dataset_legend="2024"
 ###################################
 
 current_dir=$PWD

@@ -6,6 +6,7 @@ ROOT.gStyle.SetOptStat(0)
 ROOT.gStyle.SetLegendBorderSize(0)
 ROOT.gStyle.SetTitleOffset(1.5,"Z")
 ROOT.gStyle.SetPalette(ROOT.kBlueGreenYellow)
+ROOT.gStyle.SetPadTickY(1)
 
 latex = ROOT.TLatex()
 latex.SetTextSize(0.04)
@@ -47,10 +48,22 @@ elif args.legend == '2024F':
     dataset_legend ='2024F (27.76 fb^{-1})'
     dataset_x1=0.62
     dataset_x2=0.57
-elif args.legend == '2024':
-    dataset_legend ='97 fb^{-1} (13.6 TeV)'
+elif args.legend == '2024G':
+    dataset_legend ='2024G (37.77 fb^{-1})'
     dataset_x1=0.62
     dataset_x2=0.57
+elif args.legend == '2024H':
+    dataset_legend ='2024H (5.44 fb^{-1})'
+    dataset_x1=0.64
+    dataset_x2=0.59
+elif args.legend == '2024I':
+    dataset_legend ='2024I (11.47 fb^{-1})'
+    dataset_x1=0.62
+    dataset_x2=0.57
+elif args.legend == '2024':
+    dataset_legend ='109 fb^{-1} (13.6 TeV)'
+    dataset_x1=0.60
+    dataset_x2=0.55
 else:
     dataset_legend = args.legend
     dataset_x1=0.80
@@ -168,39 +181,52 @@ key2 = "__phi_eta"
 h_misid_uGMT = in_file.Get("h_misid_phi_etauGMT_" )
 h_misid_uGMT.SetTitle(";#eta_{Reco};#phi_{Reco} [rad]; Charge misidentification")
 h_misid_uGMT.Draw("colz")
+
+c2.Update()
+h_misid_uGMT.GetPaintedHistogram().GetYaxis().SetRangeUser(-3.14, 3.3)
+h_misid_uGMT.GetPaintedHistogram().GetXaxis().SetRangeUser(-2.4, 2.4)
+c2.Update()
+
+palette = h_misid_uGMT.GetPaintedHistogram().GetListOfFunctions().FindObject("palette")
+palette.SetX1NDC(0.865)  # New left x-coordinate of the palette (move right)
+palette.SetX2NDC(0.9)  # New right x-coordinate of the palette
+palette.SetY1NDC(0.1)  # New bottom y-coordinate of the palette
+palette.SetY2NDC(0.9)  # New top y-coordinate of the palette
+c2.Update()
+
 latex.SetTextSize(0.04)
 latex.DrawLatexNDC(dataset_x2,0.91,dataset_legend)
 latex.SetTextSize(0.045)
 latex.DrawLatexNDC(0.11, 0.91, "#font[61]{CMS}")
 latex.SetTextSize(0.0346)
-latex.DrawLatexNDC(0.205, 0.91, "#font[52]{Internal}")
-line = ROOT.TLine(-1.24, -4, -1.24, 4)
+latex.DrawLatexNDC(0.205, 0.91, "#font[52]{Preliminary}")
+line = ROOT.TLine(-1.24, -3.2, -1.24, 3.6)
 line.SetLineWidth(2)
 line.SetLineColor(ROOT.kRed)
 line.SetLineStyle(9)
 line.Draw("same")
-line1 = ROOT.TLine(-0.83, -4, -0.83, 4)
+line1 = ROOT.TLine(-0.83, -3.2, -0.83, 3.6)
 line1.SetLineWidth(2)
 line1.SetLineColor(ROOT.kRed)
 line1.SetLineStyle(9)
 line1.Draw("same")
-line2 = ROOT.TLine(0.83, -4, 0.83, 4)
+line2 = ROOT.TLine(0.83, -3.2, 0.83, 3.6)
 line2.SetLineWidth(2)
 line2.SetLineColor(ROOT.kRed)
 line2.SetLineStyle(9)
 line2.Draw("same")
-line3 = ROOT.TLine(1.24, -4, 1.24, 4)
+line3 = ROOT.TLine(1.24, -3.2, 1.24, 3.6)
 line3.SetLineWidth(2)
 line3.SetLineColor(ROOT.kRed)
 line3.SetLineStyle(9)
 line3.Draw("same")
 
 latex.SetTextSize(0.021)
-latex.DrawLatexNDC(0.46,0.87,"BMTF")
-latex.DrawLatexNDC(0.30,0.87,"OMTF")
-latex.DrawLatexNDC(0.18,0.87,"EMTF")
-latex.DrawLatexNDC(0.605,0.87,"OMTF")
-latex.DrawLatexNDC(0.73,0.87,"EMTF")
+latex.DrawLatexNDC(0.451,0.87,"BMTF")
+latex.DrawLatexNDC(0.293,0.87,"OMTF")
+latex.DrawLatexNDC(0.185,0.87,"EMTF")
+latex.DrawLatexNDC(0.61,0.87,"OMTF")
+latex.DrawLatexNDC(0.725,0.87,"EMTF")
 c2.SaveAs(output_dir + "misid" + key2 + ".png")
 c2.SaveAs(output_dir + "misid" + key2 + ".pdf")
 

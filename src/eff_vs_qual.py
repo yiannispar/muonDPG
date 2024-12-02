@@ -83,9 +83,7 @@ tree.Add(input_file)
 ## Trigger settings
 trig_WP = {}
 trig_WP['SingleMu1']  = [12]
-trig_WP['SingleMu2']  = [13]
-trig_WP['SingleMu3']  = [14]
-trig_WP['SingleMu4']  = [15]
+trig_WP['SingleMu2']  = [14]
 
 trig_TF = {}
 # trig_TF['uGMT'] = [0.00, 2.40]
@@ -96,9 +94,7 @@ trig_TF['BMTF'] = [0.00, 0.83]
 
 trg_pt = {}
 trg_pt['SingleMu1']  = [22]
-trg_pt['SingleMu2']  = [22]
-trg_pt['SingleMu3']  = [22]
-trg_pt['SingleMu4']  = [22]
+trg_pt['SingleMu2']  = [11]
 
 ## ================ Histograms ======================
 scale_pt_temp = [0, 2, 3, 4, 5, 6, 7, 8, 10, 12, 14, 16, 18, 20, 22, 25, 30, 35, 45, 60, 75, 100, 140, 160, 180, 200, 250, 300, 500, 1000]

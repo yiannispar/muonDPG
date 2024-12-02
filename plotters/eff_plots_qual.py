@@ -28,24 +28,43 @@ args = parser.parse_args()
 if args.legend == '2024B':
     dataset_legend ='2024B (0.13 fb^{-1})'
     dataset_x1=0.64
+    dataset_x2=0.59
 elif args.legend == '2024C':
     dataset_legend ='2024C (7.24 fb^{-1})'
     dataset_x1=0.64
+    dataset_x2=0.59
 elif args.legend == '2024D':
     dataset_legend ='2024D (7.96 fb^{-1})'
     dataset_x1=0.64
+    dataset_x2=0.59
 elif args.legend == '2024E':
     dataset_legend ='2024E (11.32 fb^{-1})'
     dataset_x1=0.62
+    dataset_x2=0.57
 elif args.legend == '2024F':
     dataset_legend ='2024F (27.76 fb^{-1})'
     dataset_x1=0.62
-elif args.legend == '2024':
-    dataset_legend ='97 fb^{-1} (13.6 TeV)'
+    dataset_x2=0.57
+elif args.legend == '2024G':
+    dataset_legend ='2024G (37.77 fb^{-1})'
+    dataset_x1=0.62
+    dataset_x2=0.57
+elif args.legend == '2024H':
+    dataset_legend ='2024H (5.44 fb^{-1})'
     dataset_x1=0.64
+    dataset_x2=0.59
+elif args.legend == '2024I':
+    dataset_legend ='2024I (11.47 fb^{-1})'
+    dataset_x1=0.62
+    dataset_x2=0.57
+elif args.legend == '2024':
+    dataset_legend ='109 fb^{-1} (13.6 TeV)'
+    dataset_x1=0.62
+    dataset_x2=0.57
 else:
     dataset_legend = args.legend
     dataset_x1=0.80
+    dataset_x2=0.75
 output_dir = args.o
 input_dir = args.i
 
@@ -55,7 +74,7 @@ in_file = ROOT.TFile(input_dir + "merged_total.root", "READ")
 c = ROOT.TCanvas("c", "c", 800, 800)
 c.SetGrid()
 
-WPs = ["SingleMu1_10", "SingleMu2_10", "SingleMu3_10", "SingleMu4_10"]
+WPs = ["SingleMu1_10", "SingleMu2_10"]
 
 vars_title = {
     "eta": "#eta_{Reco}",
@@ -66,7 +85,7 @@ vars_title = {
 
 # Define marker colors for each WP
 # marker_colors = [ROOT.kBlack, ROOT.kRed, ROOT.kBlue, ROOT.kCyan]
-marker_colors = [color_0, color_1, color_2, color_5]
+marker_colors = [color_0, color_1]
 
 # Loop over each variable
 for var in vars_title:

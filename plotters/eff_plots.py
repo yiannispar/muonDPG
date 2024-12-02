@@ -47,10 +47,22 @@ elif args.legend == '2024F':
     dataset_legend ='2024F (27.76 fb^{-1})'
     dataset_x1=0.62
     dataset_x2=0.57
-elif args.legend == '2024':
-    dataset_legend ='97 fb^{-1} (13.6 TeV)'
+elif args.legend == '2024G':
+    dataset_legend ='2024G (37.77 fb^{-1})'
+    dataset_x1=0.62
+    dataset_x2=0.57
+elif args.legend == '2024H':
+    dataset_legend ='2024H (5.44 fb^{-1})'
     dataset_x1=0.64
     dataset_x2=0.59
+elif args.legend == '2024I':
+    dataset_legend ='2024I (11.47 fb^{-1})'
+    dataset_x1=0.62
+    dataset_x2=0.57
+elif args.legend == '2024':
+    dataset_legend ='109 fb^{-1} (13.6 TeV)'
+    dataset_x1=0.62
+    dataset_x2=0.57
 else:
     dataset_legend = args.legend
     dataset_x1=0.80
