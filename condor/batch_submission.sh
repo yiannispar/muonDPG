@@ -18,22 +18,29 @@ if [ -z "$year_run" ]; then
 fi
 
 # Construct the output directory path
-output_dir="/eos/user/n/nplastir/Trigger/DPS_2024/files/$year_run"
+output_dir="/eos/user/n/nplastir/Trigger/DPS_2024/final/files/$year_run"
 
 # Create the output directory if it doesn't exist
 mkdir -p "$output_dir"
 
 
 # Submit the jobs to condor
+
+# python3 run_nano.py --dataset "$dataset" --exec eff_22_15.py --output "$output_dir/eff_22_15/" --jobFlav workday --submitName eff_22_15 --submit 
+
+# python3 run_nano.py --dataset "$dataset" --exec eff_22_11.py --output "$output_dir/eff_22_11/" --jobFlav workday --submitName eff_22_11 --submit
+
+# python3 run_nano.py --dataset "$dataset" --exec eff_11_doublequal.py --output "$output_dir/eff_11_doublequal/" --jobFlav workday --submitName eff_11_doublequal --submit 
+
 # python3 run_nano.py --dataset "$dataset" --exec eff_nano.py --output "$output_dir/eff/" --jobFlav workday --submitName eff --submit 
 
 python3 run_nano.py --dataset "$dataset" --exec eff_nano_2WP.py --output "$output_dir/eff_2WP/" --jobFlav workday --submitName eff_2WP --submit 
 
-python3 run_nano.py --dataset "$dataset" --exec eff_vs_qual.py --output "$output_dir/eff_qual/" --jobFlav workday --submitName eff_qual --submit 
+# python3 run_nano.py --dataset "$dataset" --exec eff_vs_qual.py --output "$output_dir/eff_qual/" --jobFlav workday --submitName eff_qual --submit 
 
 # python3 run_nano.py --dataset "$dataset" --exec eff_vs_run.py --output "$output_dir/eff_run/" --jobFlav workday --submitName eff_run --submit 
 
-python3 run_nano.py --dataset "$dataset" --exec misid.py --output "$output_dir/misid/" --jobFlav workday --submitName misid --submit 
+# python3 run_nano.py --dataset "$dataset" --exec misid.py --output "$output_dir/misid/" --jobFlav workday --submitName misid --submit 
 
 # python3 run_nano.py --dataset "$dataset" --exec misid_vs_run.py --output "$output_dir/misid_run/" --jobFlav workday --submitName misid_run --submit 
 
