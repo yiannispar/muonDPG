@@ -3,4 +3,5 @@ condor/__pycache__
 condor/log/*err*
 condor/log/*out*
 condor/*.cc
+condor/log/*.log
 plotters/__pycache__/
