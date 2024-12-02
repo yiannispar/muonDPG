@@ -3,7 +3,6 @@ condor/__pycache__
 condor/log/*err*
 condor/log/*out*
 condor/*.cc
-condor/log/*.log
 condor/eff_*
 condor/misid*
 plotters/__pycache__/
