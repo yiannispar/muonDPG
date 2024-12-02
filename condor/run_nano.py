@@ -20,12 +20,14 @@ json_files = {
   "2023B": pwd + "/../JSON/Cert_Collisions2023_eraB_366403_367079_Golden.json",
   "2023C": pwd + "/../JSON/Cert_Collisions2023_eraC_367095_368823_Golden.json",
   "2023D": pwd + "/../JSON/Cert_Collisions2023_eraD_369803_370790_Golden.json",
-  "2024B": pwd + "/../JSON/Cert_Collisions2024_eraB_Golden.json",
-  "2024C": pwd + "/../JSON/Cert_Collisions2024_eraC_Golden.json",
-  "2024D": pwd + "/../JSON/Cert_Collisions2024_eraD_Golden.json",
-  "2024E": pwd + "/../JSON/Cert_Collisions2024_eraE_Golden.json",
-  "2024F": pwd + "/../JSON/Cert_Collisions2024_eraF_Golden.json",
-  "2024G": pwd + "/../JSON/Cert_Collisions2024_378981_386071_Golden.json"
+  "2024B": pwd + "/../JSON/2024B_Golden.json",
+  "2024C": pwd + "/../JSON/2024C_Golden.json",
+  "2024D": pwd + "/../JSON/2024D_Golden.json",
+  "2024E": pwd + "/../JSON/2024E_Golden.json",
+  "2024F": pwd + "/../JSON/2024F_Golden.json",
+  "2024G": pwd + "/../JSON/2024G_Golden.json",
+  "2024H": pwd + "/../JSON/2024H_Golden.json",
+  "2024I": pwd + "/../JSON/2024I_Golden.json"
 }
 
 if args.exec == None:
