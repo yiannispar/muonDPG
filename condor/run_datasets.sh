@@ -1,5 +1,7 @@
 #!/bin/bash
 
+voms-proxy-init -voms cms 
+
 # Check if the dataset list file is provided
 if [ "$#" -ne 1 ]; then
     echo "Usage: $0 <dataset_list_file>"
