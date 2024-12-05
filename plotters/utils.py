@@ -48,24 +48,24 @@ ROOT.gStyle.SetLegendTextSize(0.035) # Legend text size
 latex = ROOT.TLatex()                # TLatex
 
 # Legend text for each era
-def get_dataset_legend(legend):
+def get_dataset_legend(legend, R=0.1):
     legend_map = {
-        #Legend: (Legend text, x1 coordinate, x2 coordinate)
-        '2024B': ('2024B (0.13 fb^{-1})', 0.64, 0.59),
-        '2024C': ('2024C (7.24 fb^{-1})', 0.64, 0.59),
-        '2024D': ('2024D (7.96 fb^{-1})', 0.64, 0.59),
-        '2024E': ('2024E (11.32 fb^{-1})', 0.62, 0.57),
-        '2024F': ('2024F (27.76 fb^{-1})', 0.62, 0.57),
-        '2024G': ('2024G (37.77 fb^{-1})', 0.62, 0.57),
-        '2024H': ('2024H (5.44 fb^{-1})', 0.64, 0.59),
-        '2024I': ('2024I (11.47 fb^{-1})', 0.62, 0.57),
-        '2024':  ('109 fb^{-1} (13.6 TeV)', 0.60, 0.55),
+        #Legend: (Legend text, x coordinate)
+        '2024B': ('2024B (0.13 fb^{-1})', 1-(R+0.26)),
+        '2024C': ('2024C (7.24 fb^{-1})', 1-(R+0.26)),
+        '2024D': ('2024D (7.96 fb^{-1})', 1-(R+0.26)),
+        '2024E': ('2024E (11.32 fb^{-1})', 1-(R+0.28)),
+        '2024F': ('2024F (27.76 fb^{-1})', 1-(R+0.28)),
+        '2024G': ('2024G (37.77 fb^{-1})', 1-(R+0.28)),
+        '2024H': ('2024H (5.44 fb^{-1})', 1-(R+0.26)),
+        '2024I': ('2024I (11.47 fb^{-1})', 1-(R+0.28)),
+        '2024':  ('109 fb^{-1} (13.6 TeV)', 1-(R+0.3)),
     }
     
     if legend in legend_map:
         return legend_map[legend]
     else:
-        return (legend, 0.80, 0.75)  # Default case
+        return (legend, (1-R-0.1))  # Default case
 
 # Adds overflow in the last bin of the histogram
 def add_overflow(hist):
