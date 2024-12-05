@@ -4,7 +4,7 @@ import os
 import utils
 from utils import *
 
-#parse arguments
+# Parse arguments
 parser = argparse.ArgumentParser()
 parser.add_argument('--legend', type=str, help='dataset legend')
 parser.add_argument('-o', type=str, help='output dir')
@@ -15,7 +15,9 @@ args = parser.parse_args()
 dataset_legend, dataset_x1, dataset_x2 = get_dataset_legend(args.legend)
 output_dir = args.o
 input_dir = args.i
-# merge_root_files(input_dir)
+# utils.merge_root_files(input_dir)
+
+in_file = ROOT.TFile(input_dir + "merged_total.root","READ")
 
 WPs = ["SingleMu1_22","SingleMu2_5"]
 
@@ -31,8 +33,6 @@ vars_title = {
     "pt2": "p^{#mu,offline}_{T} [GeV]",
     #"nPV": "Number of Vertices"
 }
-
-in_file = ROOT.TFile(input_dir + "merged_total.root","READ")
 
 c, L, R, T, B = utils.create_canvas("c")
 
@@ -215,7 +215,6 @@ for wp in WPs:
 ## eta vs phi
 ROOT.gStyle.SetPadTickY(1)
 c2, L, R, T, B = utils.create_canvas("c2", 0.11, 0.15)
-
 
 for wp in WPs:
     key = wp + "_phi_eta"
