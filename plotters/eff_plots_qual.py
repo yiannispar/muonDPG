@@ -1,22 +1,8 @@
 import ROOT
 import argparse
+import os
 import utils
-
-ROOT.gStyle.SetOptStat(0)
-ROOT.gStyle.SetLegendBorderSize(0)
-ROOT.gStyle.SetTitleOffset(1.5, "Z")
-latex = ROOT.TLatex()
-latex.SetTextSize(0.04)
-latex.SetTextFont(42)
-ROOT.gStyle.SetLegendTextSize(0.035)
-
-# Colors
-color_0 = ROOT.TColor.GetColor(87,144,252) #blue
-color_1 = ROOT.TColor.GetColor(248,156,32) #orange
-color_2 = ROOT.TColor.GetColor(228,37,54) #red
-color_3 = ROOT.TColor.GetColor(150,74,139) #purple
-color_4 = ROOT.TColor.GetColor(156,156,161) #gray
-color_5 = ROOT.TColor.GetColor(122,33,221) #purple
+from utils import *
 
 # Parse arguments
 parser = argparse.ArgumentParser()
@@ -25,56 +11,17 @@ parser.add_argument('-o', type=str, help='Output directory')
 parser.add_argument('-i', type=str, help='Input directory')
 args = parser.parse_args()
 
-if args.legend == '2024B':
-    dataset_legend ='2024B (0.13 fb^{-1})'
-    dataset_x1=0.64
-    dataset_x2=0.59
-elif args.legend == '2024C':
-    dataset_legend ='2024C (7.24 fb^{-1})'
-    dataset_x1=0.64
-    dataset_x2=0.59
-elif args.legend == '2024D':
-    dataset_legend ='2024D (7.96 fb^{-1})'
-    dataset_x1=0.64
-    dataset_x2=0.59
-elif args.legend == '2024E':
-    dataset_legend ='2024E (11.32 fb^{-1})'
-    dataset_x1=0.62
-    dataset_x2=0.57
-elif args.legend == '2024F':
-    dataset_legend ='2024F (27.76 fb^{-1})'
-    dataset_x1=0.62
-    dataset_x2=0.57
-elif args.legend == '2024G':
-    dataset_legend ='2024G (37.77 fb^{-1})'
-    dataset_x1=0.62
-    dataset_x2=0.57
-elif args.legend == '2024H':
-    dataset_legend ='2024H (5.44 fb^{-1})'
-    dataset_x1=0.64
-    dataset_x2=0.59
-elif args.legend == '2024I':
-    dataset_legend ='2024I (11.47 fb^{-1})'
-    dataset_x1=0.62
-    dataset_x2=0.57
-elif args.legend == '2024':
-    dataset_legend ='109 fb^{-1} (13.6 TeV)'
-    dataset_x1=0.62
-    dataset_x2=0.57
-else:
-    dataset_legend = args.legend
-    dataset_x1=0.80
-    dataset_x2=0.75
+# Pass arguments
+dataset_legend, dataset_x1, dataset_x2 = get_dataset_legend(args.legend)
 output_dir = args.o
 input_dir = args.i
-
-utils.merge_root_files(input_dir)
+# utils.merge_root_files(input_dir)
 
 in_file = ROOT.TFile(input_dir + "merged_total.root", "READ")
-c = ROOT.TCanvas("c", "c", 800, 800)
-c.SetGrid()
 
-WPs = ["SingleMu1_10", "SingleMu2_10"]
+WPs = ["SingleMu1_22", "SingleMu2_22", "SingleMu3_22", "SingleMu4_22"]
+# Define marker colors for each WP
+marker_colors = [CMS_color_0, CMS_color_1, CMS_color_2, CMS_color_5]
 
 vars_title = {
     "eta": "#eta_{Reco}",
@@ -83,9 +30,7 @@ vars_title = {
     "pt": "p^{Reco}_{T} [GeV]"
 }
 
-# Define marker colors for each WP
-# marker_colors = [ROOT.kBlack, ROOT.kRed, ROOT.kBlue, ROOT.kCyan]
-marker_colors = [color_0, color_1]
+c, L, R, T, B = utils.create_canvas("c")
 
 # Loop over each variable
 for var in vars_title:
@@ -125,25 +70,21 @@ for var in vars_title:
         hist.Draw("same")
 
     # Draw legend and additional text
-    leg.Draw()
+    leg.Draw()    
+    utils.add_dataset_legend(dataset_x1, dataset_legend)
+    utils.add_cms_label_out(L,T)
     latex.SetTextSize(0.04)
-    latex.DrawLatexNDC(dataset_x1,0.91,dataset_legend)
-    # latex.DrawLatexNDC(0.54, 0.48, "p^{#mu,L1}_{T} #geq 22 GeV")
-    # if var == "eta" or var == "phi" or var == "nPV":
-    #     latex.DrawLatexNDC(0.54, 0.41, "p^{#mu,Reco}_{T} #geq 26 GeV")
-    latex.SetTextSize(0.045)
-    latex.DrawLatexNDC(0.1, 0.91, "#font[61]{CMS}")
-    latex.SetTextSize(0.0346)
-    latex.DrawLatexNDC(0.195, 0.91, "#font[52]{Internal}")
-    latex.DrawLatexNDC(0.69, 0.48, "#bf{p^{#mu,L1}_{T} #geq 10 GeV}")
+    latex.SetTextFont(42)
+    latex.DrawLatexNDC(0.69, 0.48, "#p^{#mu,L1}_{T} #geq 22 GeV}")
     
     c.Update() 
     if var == "pt":# Ensure canvas is updated before modifying histogram settings
         eff_histograms[0].GetPaintedGraph().GetXaxis().SetRangeUser(10, 160)
     eff_histograms[0].GetPaintedGraph().GetYaxis().SetRangeUser(0, 1.1)
 
-    # Save canvas as image
+    # Save canvas
     c.SaveAs(output_dir + "eff_qual_" + var + ".png")
+    c.SaveAs(output_dir + "eff_qual_" + var + ".pdf")
 
 # Close input file
 in_file.Close()

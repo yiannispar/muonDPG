@@ -1,6 +1,6 @@
 ############ settings #############
-root_files_dir=/eos/user/p/pkatris/Muon1_2024/ 
-output_dir=/eos/user/p/pkatris/Muon1_2024/Plots/Quality/
+root_files_dir=/eos/user/n/nplastir/Trigger/files/2024B/eff_qual/ 
+output_dir=/eos/user/n/nplastir/Trigger/plots/2024B/eff_qual/
 dataset_legend="2024B"
 ###################################
 
