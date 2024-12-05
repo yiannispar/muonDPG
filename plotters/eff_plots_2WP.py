@@ -272,3 +272,6 @@ for wp in WPs:
 
     c2.SaveAs(output_dir + "eff_" + key + ".png")
     c2.SaveAs(output_dir + "eff_" + key + ".pdf")
+
+# Close input file
+in_file.Close()
