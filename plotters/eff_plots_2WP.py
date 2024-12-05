@@ -12,7 +12,6 @@ parser.add_argument('-i', type=str, help='input dir dir')
 args = parser.parse_args()
 
 # Pass arguments
-dataset_legend, dataset_x1, dataset_x2 = get_dataset_legend(args.legend)
 output_dir = args.o
 input_dir = args.i
 # utils.merge_root_files(input_dir)
@@ -35,6 +34,7 @@ vars_title = {
 }
 
 c, L, R, T, B = utils.create_canvas("c")
+dataset_legend, dataset_x1 = get_dataset_legend(args.legend, R)
 
 ## eff vs var
 for wp in WPs:
@@ -199,13 +199,12 @@ for wp in WPs:
 
             # Latex
             utils.add_dataset_legend(dataset_x1, dataset_legend)
-            if var == "eta" or var == "phi" or var == "nPV":
-                # latex.DrawLatexNDC(0.54, 0.41, "p^{#mu,Reco}_{T} #geq 5 GeV")
-                latex.DrawLatexNDC(0.64, 0.53,quality_label)
+            if var == "phi" or var == "nPV":
+                latex.DrawLatexNDC(0.64, 0.53, quality_label)
                 latex.DrawLatexNDC(0.64, 0.46, pt_l1_label)
                 latex.DrawLatexNDC(0.64, 0.39, pt_reco_label)
             else:
-                latex.DrawLatexNDC(0.64,0.44,quality_label)
+                latex.DrawLatexNDC(0.64, 0.44, quality_label)
                 latex.DrawLatexNDC(0.64, 0.39, pt_l1_label)
             utils.add_cms_label_in(L,T)
 
@@ -215,6 +214,7 @@ for wp in WPs:
 ## eta vs phi
 ROOT.gStyle.SetPadTickY(1)
 c2, L, R, T, B = utils.create_canvas("c2", 0.11, 0.15)
+dataset_legend, dataset_x1 = get_dataset_legend(args.legend, R)
 
 for wp in WPs:
     key = wp + "_phi_eta"
@@ -226,6 +226,8 @@ for wp in WPs:
     h_eff_uGMT.SetTitle(";#eta_{Reco};#phi_{Reco} [rad];Efficiency")
     h_eff_uGMT.Draw("colz")
     c2.Update()
+
+    # Set limits for X and Y axes
     h_eff_uGMT.GetPaintedHistogram().GetYaxis().SetRangeUser(-3.14, 3.3)
     h_eff_uGMT.GetPaintedHistogram().GetXaxis().SetRangeUser(-2.4, 2.4)
     c2.Update()
@@ -239,7 +241,7 @@ for wp in WPs:
     c2.Update()
 
     # Latex
-    utils.add_dataset_legend(dataset_x2, dataset_legend)
+    utils.add_dataset_legend(dataset_x1, dataset_legend)
     utils.add_cms_label_out(L,T)
     
     line = ROOT.TLine(-1.24, -3.2, -1.24, 3.6)
@@ -264,6 +266,7 @@ for wp in WPs:
     line3.Draw("same")
 
     latex.SetTextSize(0.021)
+    latex.SetTextFont(42)
     latex.DrawLatexNDC(0.451,0.87,"BMTF")
     latex.DrawLatexNDC(0.293,0.87,"OMTF")
     latex.DrawLatexNDC(0.185,0.87,"EMTF")

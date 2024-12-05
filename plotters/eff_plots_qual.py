@@ -12,7 +12,6 @@ parser.add_argument('-i', type=str, help='Input directory')
 args = parser.parse_args()
 
 # Pass arguments
-dataset_legend, dataset_x1, dataset_x2 = get_dataset_legend(args.legend)
 output_dir = args.o
 input_dir = args.i
 # utils.merge_root_files(input_dir)
@@ -31,6 +30,7 @@ vars_title = {
 }
 
 c, L, R, T, B = utils.create_canvas("c")
+dataset_legend, dataset_x1 = get_dataset_legend(args.legend, R)
 
 # Loop over each variable
 for var in vars_title:
