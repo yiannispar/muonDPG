@@ -186,14 +186,14 @@ python3 misid_vs_run_plots.py -o $output_dir/misid_run/ -i $root_files_dir/misid
 
 
 def generate_make_plots_scripts(output_base_dir, include_eff, include_run, include_all):
-    options= [eff, misid]
+    options= ["eff", "misid"]
     if include_all:
         include_eff=True
         include_run=True
     if include_eff:
-        options+=[eff_22_15, eff_22_11, eff_qual]
+        options+=["eff_22_15", "eff_22_11", "eff_qual"]
     if include_run:
-        options+=[eff_vs_run, misid_vs_run]
+        options+=["eff_vs_run", "misid_vs_run"]
     for option in options:
         make_plots_content = f"""#!/bin/bash
 # Check if the era is provided
