@@ -184,6 +184,60 @@ python3 misid_vs_run_plots.py -o $output_dir/misid_run/ -i $root_files_dir/misid
     print(f"Generated {script_path}")
 
 
+
+def generate_make_plots_scripts(output_base_dir, include_eff, include_run, include_all):
+    options= [eff_2WP, misid]
+    if include_all:
+        include_eff=True
+        include_run=True
+    if include_eff:
+        options+=[eff_22_15, eff_22_11, eff_qual]
+    if include_run:
+        options+=[eff_vs_run, misid_vs_run]
+    for option in options:
+        make_plots_content = f"""#!/bin/bash
+# Check if the era is provided
+if [ "$#" -ne 1 ]; then
+    echo "Usage: $0 <era>"
+    exit 1
+fi
+
+era="$1"
+
+############ settings #############
+root_files_dir="{output_base_dir}/files/$era/{option}"
+output_dir="{output_base_dir}/plots/$era/{option}/"
+###################################
+
+current_dir=$PWD
+
+echo "Root files dir: ${{root_files_dir}}"
+echo "Output dir: ${{output_dir}}"
+echo "Dataset legend: ${{era}}"
+
+mkdir -p $output_dir/
+
+rm -rf merged_total.root
+hadd merged_total.root *.root
+
+cd $current_dir/../plotters/
+
+python3 {option}.py -o $output_dir/ -i $root_files_dir/ --legend "$era"
+
+cd $current_dir
+
+echo "DONE"
+"""
+    
+        script_path = f"./make_plots/make_plots_{option}.sh"
+        os.makedirs(os.path.dirname(script_path), exist_ok=True)
+        with open(script_path, "w") as file:
+            file.write(make_plots_content)
+
+        os.chmod(script_path, 0o755)
+        print(f"Generated {script_path}")
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Generate files for automated creation of DPG plots")
     parser.add_argument("-o", "--output", required=True, type=str, help="Output directory for the DPG files and plots")
@@ -195,3 +249,4 @@ if __name__ == "__main__":
     # Generate scripts
     generate_batch_submission_script(args.output, args.eff, args.run, args.all)
     generate_make_plots_script(args.output, args.eff, args.run, args.all)
+    generate_make_plots_scripts(args.output, args.eff, args.run, args.all)
