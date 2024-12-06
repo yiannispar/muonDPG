@@ -33,6 +33,7 @@ vars_title = {
     #"nPV": "Number of Vertices"
 }
 
+# Create canvas, receive values for margins
 c, L, R, T, B = utils.create_canvas("c")
 dataset_legend, dataset_x1 = get_dataset_legend(args.legend, R)
 
