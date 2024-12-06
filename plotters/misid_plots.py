@@ -28,6 +28,7 @@ vars_title = {
     #"nPV": "Number of Vertices"
 }
 
+# Create canvas, receive values for margins
 c, L, R, T, B = utils.create_canvas("c")
 dataset_legend, dataset_x1 = get_dataset_legend(args.legend, R)
 
@@ -99,6 +100,7 @@ for var in vars_title:
 
 ## eta vs phi
 ROOT.gStyle.SetPadTickY(1)
+# Create canvas, receive values for margins
 c2, L, R, T, B = utils.create_canvas("c2", 0.11, 0.15)
 dataset_legend, dataset_x1 = get_dataset_legend(args.legend, R)
 

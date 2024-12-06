@@ -40,6 +40,7 @@ for var in vars_title:
     key="_" + var
     c.SetLogx(0)
 
+    # Retrieve and draw histogram for BMTF for SingleMu1_22
     h_passed_BMTF_1 = in_file.Get("BMTF_SingleMu1_22" + key + "_passed")
     h_passed_BMTF_1 = utils.add_overflow(h_passed_BMTF_1)
     h_total_BMTF_1 = in_file.Get("BMTF_SingleMu1_22" + key + "_total")
@@ -60,6 +61,7 @@ for var in vars_title:
         graph.GetXaxis().SetTitleOffset(1.2)
     c.Update()
 
+    # Retrieve and draw histogram for BMTF for SingleMu2_11
     h_passed_BMTF_2 = in_file.Get("BMTF_SingleMu2_11" + key + "_passed")
     h_passed_BMTF_2 = utils.add_overflow(h_passed_BMTF_2)
     h_total_BMTF_2 = in_file.Get("BMTF_SingleMu2_11" + key + "_total")
@@ -67,12 +69,14 @@ for var in vars_title:
     h_eff_BMTF_2 = ROOT.TEfficiency(h_passed_BMTF_2,h_total_BMTF_2)
     draw_hist(h_eff_BMTF_2, ROOT.kRed, 21, "same")
 
+    # Create legend
     leg = ROOT.TLegend(0.456,0.13,0.8,0.23)
     leg.SetFillStyle(0)
     leg.AddEntry(h_eff_BMTF_1,"p^{#mu,L1}_{T} #geq 22, L1 Quality #geq 12","lep")
     leg.AddEntry(h_eff_BMTF_2,"p^{#mu,L1}_{T} #geq 11, L1 Quality #geq 14","lep")
     leg.Draw()
 
+    # Add text to show that the plot is for BMTF only except in eta plot
     if var != "eta":
         latex.SetTextFont(42)
         latex.SetTextSize(0.035)
