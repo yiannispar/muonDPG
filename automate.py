@@ -28,7 +28,7 @@ output_dir="{output_base_dir}/files/$year_run"
 mkdir -p "$output_dir"
 
 # Submit the jobs to condor
-python3 run_nano.py --dataset "$dataset" --exec eff_nano_2WP.py --output "$output_dir/eff_2WP/" --jobFlav workday --submitName eff_2WP_${{year_run}}.sh --submit
+python3 run_nano.py --dataset "$dataset" --exec eff.py --output "$output_dir/eff/" --jobFlav workday --submitName eff_${{year_run}}.sh --submit
 
 python3 run_nano.py --dataset "$dataset" --exec misid.py --output "$output_dir/misid/" --jobFlav workday --submitName misid_${{year_run}}.sh --submit 
 """
@@ -42,7 +42,7 @@ python3 run_nano.py --dataset "$dataset" --exec eff_22_15.py --output "$output_d
 
 python3 run_nano.py --dataset "$dataset" --exec eff_22_11.py --output "$output_dir/eff_22_11/" --jobFlav workday --submitName eff_22_11_${{year_run}}.sh --submit
 
-python3 run_nano.py --dataset "$dataset" --exec eff_vs_qual.py --output "$output_dir/eff_qual/" --jobFlav workday --submitName eff_qual_${{year_run}}.sh --submit 
+python3 run_nano.py --dataset "$dataset" --exec eff_qual.py --output "$output_dir/eff_qual/" --jobFlav workday --submitName eff_qual_${{year_run}}.sh --submit 
 """        
     if include_run:
         batch_submission_content +=f"""
@@ -85,15 +85,15 @@ echo "Dataset legend: ${{era}}"
 mkdir -p $output_dir
 
 ############ Efficiency_2WP #############
-mkdir -p $output_dir/eff_2WP/
-cd $root_files_dir/eff_2WP/
+mkdir -p $output_dir/eff/
+cd $root_files_dir/eff/
 
 rm -rf merged_total.root
 hadd merged_total.root *.root
 
 cd $current_dir/../plotters/
 
-python3 eff_plots_2WP.py -o $output_dir/eff_2WP/ -i $root_files_dir/eff_2WP/ --legend "$era"
+python3 eff_plots.py -o $output_dir/eff/ -i $root_files_dir/eff/ --legend "$era"
 
 ############ Charge misidentification #############
 mkdir -p $output_dir/misid/
@@ -124,7 +124,7 @@ hadd merged_total.root *.root
 
 cd $current_dir/../plotters/
 
-python3 eff_plots_22_15.py -o $output_dir/eff_22_15/ -i $root_files_dir/eff_22_15/ --legend "$era"
+python3 eff_22_15_plots.py -o $output_dir/eff_22_15/ -i $root_files_dir/eff_22_15/ --legend "$era"
 
 ############ Efficiency_22_11 #############
 mkdir -p $output_dir/eff_22_11/
@@ -135,7 +135,7 @@ hadd merged_total.root *.root
 
 cd $current_dir/../plotters/
 
-python3 eff_plots_22_11.py -o $output_dir/eff_22_11/ -i $root_files_dir/eff_22_11/ --legend "$era"
+python3 eff_22_11_plots.py -o $output_dir/eff_22_11/ -i $root_files_dir/eff_22_11/ --legend "$era"
 
 ############ Efficiency vs Quality #############
 mkdir -p $output_dir/eff_qual/
@@ -146,7 +146,7 @@ hadd merged_total.root *.root
 
 cd $current_dir/../plotters/
 
-python3 eff_plots_qual.py -o $output_dir/eff_qual/ -i $root_files_dir/eff_qual/ --legend "$era"
+python3 eff_qual_plots.py -o $output_dir/eff_qual/ -i $root_files_dir/eff_qual/ --legend "$era"
 
 """
     if include_run:
@@ -186,7 +186,7 @@ python3 misid_vs_run_plots.py -o $output_dir/misid_run/ -i $root_files_dir/misid
 
 
 def generate_make_plots_scripts(output_base_dir, include_eff, include_run, include_all):
-    options= [eff_2WP, misid]
+    options= [eff, misid]
     if include_all:
         include_eff=True
         include_run=True
@@ -222,7 +222,7 @@ hadd merged_total.root *.root
 
 cd $current_dir/../plotters/
 
-python3 {option}.py -o $output_dir/ -i $root_files_dir/ --legend "$era"
+python3 {option}_plots.py -o $output_dir/ -i $root_files_dir/ --legend "$era"
 
 cd $current_dir
 
