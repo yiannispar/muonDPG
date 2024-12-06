@@ -84,7 +84,7 @@ echo "Dataset legend: ${{era}}"
 
 mkdir -p $output_dir
 
-############ Efficiency_2WP #############
+############ Efficiency #############
 mkdir -p $output_dir/eff/
 cd $root_files_dir/eff/
 
