@@ -1,7 +1,5 @@
 #!/bin/bash
 
-voms-proxy-init -voms cms 
-
 # Check if the dataset list file is provided
 if [ "$#" -ne 1 ]; then
     echo "Usage: $0 <dataset_list_file>"
@@ -21,6 +19,7 @@ while IFS= read -r dataset; do
     if [ -n "$dataset" ]; then # Skip empty lines
         ./batch_submission.sh "$dataset"
 
-        wait
+        # Introduce a delay to allow Condor to process the submission
+        sleep 5
     fi
 done < "$dataset_list_file"
