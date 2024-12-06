@@ -48,6 +48,8 @@ for var in vars_title:
     h_total_BMTF_1 = utils.add_overflow(h_total_BMTF_1)
     h_eff_BMTF_1 = ROOT.TEfficiency(h_passed_BMTF_1,h_total_BMTF_1)
     draw_hist(h_eff_BMTF_1, CMS_color_0, 20, "")
+
+    # Add label and set the limits for the axes
     h_eff_BMTF_1.SetTitle(";" + vars_title[var] + ";Efficiency")
     c.Update()
     graph = h_eff_BMTF_1.GetPaintedGraph() 

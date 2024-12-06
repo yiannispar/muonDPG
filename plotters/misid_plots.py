@@ -43,6 +43,8 @@ for var in vars_title:
     h_total_uGMT = utils.add_overflow(h_total_uGMT)
     h_misid_uGMT = ROOT.TEfficiency(h_passed_uGMT,h_total_uGMT)
     draw_hist(h_misid_uGMT, CMS_color_0, 20, "")
+
+    # Add label and set the limits for the axes
     h_misid_uGMT.SetTitle(";" + vars_title[var] + ";Charge misidentification")
     c.Update()
     graph = h_misid_uGMT.GetPaintedGraph() 

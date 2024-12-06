@@ -113,6 +113,7 @@ for wp in WPs:
             # Draw histograms
             draw_hist(h_eff_EMTF, CMS_color_5, 23, "")
 
+            # Add label and set the limits for the axes
             h_eff_EMTF.SetTitle(";" + vars_title[var] + ";Efficiency")
             c.Update()
             graph = h_eff_EMTF.GetPaintedGraph() 
@@ -146,6 +147,8 @@ for wp in WPs:
             h_total_uGMT = utils.add_overflow(h_total_uGMT)
             h_eff_uGMT = ROOT.TEfficiency(h_passed_uGMT,h_total_uGMT)
             draw_hist(h_eff_uGMT, CMS_color_0, 20, "")
+
+            # Add label and set the limits for the axes
             h_eff_uGMT.SetTitle(";" + vars_title[var] + ";Efficiency")
             c.Update()
             graph = h_eff_uGMT.GetPaintedGraph() 
