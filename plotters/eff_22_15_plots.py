@@ -1,83 +1,22 @@
 import ROOT
 import argparse
-import utils
 import os
+import utils
+from utils import *
 
-ROOT.gStyle.SetOptStat(0)
-ROOT.gStyle.SetLegendBorderSize(0)
-ROOT.gStyle.SetTitleOffset(1.5,"Z")
-ROOT.gStyle.SetPalette(ROOT.kBlueGreenYellow)
-latex = ROOT.TLatex()
-latex.SetTextSize(0.04)
-latex.SetTextFont(42)
-ROOT.gStyle.SetLegendTextSize(0.035)
-
-# Colors
-color_0 = ROOT.TColor.GetColor(87,144,252) #blue
-color_1 = ROOT.TColor.GetColor(248,156,32) #orange
-color_2 = ROOT.TColor.GetColor(228,37,54) #red
-color_3 = ROOT.TColor.GetColor(150,74,139) #purple
-color_4 = ROOT.TColor.GetColor(156,156,161) #gray
-color_5 = ROOT.TColor.GetColor(122,33,221) #purple
-
-#parse arguments
+# Parse arguments
 parser = argparse.ArgumentParser()
 parser.add_argument('--legend', type=str, help='dataset legend')
 parser.add_argument('-o', type=str, help='output dir')
 parser.add_argument('-i', type=str, help='input dir dir')
 args = parser.parse_args()
 
-if args.legend == '2024B':
-    dataset_legend ='2024B (0.13 fb^{-1})'
-    dataset_x1=0.64
-    dataset_x2=0.59
-elif args.legend == '2024C':
-    dataset_legend ='2024C (7.24 fb^{-1})'
-    dataset_x1=0.64
-    dataset_x2=0.59
-elif args.legend == '2024D':
-    dataset_legend ='2024D (7.96 fb^{-1})'
-    dataset_x1=0.64
-    dataset_x2=0.59
-elif args.legend == '2024E':
-    dataset_legend ='2024E (11.32 fb^{-1})'
-    dataset_x1=0.62
-    dataset_x2=0.57
-elif args.legend == '2024F':
-    dataset_legend ='2024F (27.76 fb^{-1})'
-    dataset_x1=0.62
-    dataset_x2=0.57
-elif args.legend == '2024G':
-    dataset_legend ='2024G (37.77 fb^{-1})'
-    dataset_x1=0.62
-    dataset_x2=0.57
-elif args.legend == '2024H':
-    dataset_legend ='2024H (5.44 fb^{-1})'
-    dataset_x1=0.64
-    dataset_x2=0.59
-elif args.legend == '2024I':
-    dataset_legend ='2024I (11.47 fb^{-1})'
-    dataset_x1=0.62
-    dataset_x2=0.57
-elif args.legend == '2024':
-    dataset_legend ='109 fb^{-1} (13.6 TeV)'
-    dataset_x1=0.60
-    dataset_x2=0.55
-else:
-    dataset_legend = args.legend
-    dataset_x1=0.80
-    dataset_x2=0.75
+# Pass arguments
 output_dir = args.o
 input_dir = args.i
-
-## merge root files
 # utils.merge_root_files(input_dir)
 
 in_file = ROOT.TFile(input_dir + "merged_total.root","READ")
-c = ROOT.TCanvas("c","c",800,800)
-# c.SetLeftMargin(0.11)
-# c.SetRightMargin(0.15)
-c.SetGrid()
 
 WPs = ["SingleMu1_22","SingleMu2_15"]
 
@@ -94,19 +33,23 @@ vars_title = {
     #"nPV": "Number of Vertices"
 }
 
+# Create canvas, receive values for margins
+c, L, R, T, B = utils.create_canvas("c")
+dataset_legend, dataset_x1 = get_dataset_legend(args.legend, R)
+
 for var in vars_title:
     key="_" + var
     c.SetLogx(0)
 
+    # Retrieve and draw histogram for uGMT for SingleMu1_22
     h_passed_uGMT_22 = in_file.Get("uGMT_SingleMu1_22" + key + "_passed")
     h_passed_uGMT_22 = utils.add_overflow(h_passed_uGMT_22)
     h_total_uGMT_22 = in_file.Get("uGMT_SingleMu1_22" + key + "_total")
     h_total_uGMT_22 = utils.add_overflow(h_total_uGMT_22)
     h_eff_uGMT_22 = ROOT.TEfficiency(h_passed_uGMT_22,h_total_uGMT_22)
-    h_eff_uGMT_22.SetMarkerColor(color_0)
-    h_eff_uGMT_22.SetLineColor(color_0)
-    h_eff_uGMT_22.SetMarkerStyle(20)
-    h_eff_uGMT_22.Draw()
+    draw_hist(h_eff_uGMT_22, CMS_color_0, 20, "")
+
+    # Add label and set the limits for the axes
     h_eff_uGMT_22.SetTitle(";" + vars_title[var] + ";Efficiency")
     c.Update()
     graph = h_eff_uGMT_22.GetPaintedGraph() 
@@ -121,47 +64,27 @@ for var in vars_title:
         graph.GetXaxis().SetTitleOffset(1.2)
     c.Update()
 
+    # Retrieve and draw histogram for uGMT for SingleMu1_22
     h_passed_uGMT_15 = in_file.Get("uGMT_SingleMu2_15" + key + "_passed")
     h_passed_uGMT_15 = utils.add_overflow(h_passed_uGMT_15)
     h_total_uGMT_15 = in_file.Get("uGMT_SingleMu2_15" + key + "_total")
     h_total_uGMT_15 = utils.add_overflow(h_total_uGMT_15)
     h_eff_uGMT_15 = ROOT.TEfficiency(h_passed_uGMT_15,h_total_uGMT_15)
-    # h_eff_uGMT_15.SetMarkerColor(ROOT.kGreen+2)
-    # h_eff_uGMT_15.SetLineColor(ROOT.kGreen+2)
-    h_eff_uGMT_15.SetMarkerColor(ROOT.kRed)
-    h_eff_uGMT_15.SetLineColor(ROOT.kRed)
-    h_eff_uGMT_15.SetMarkerStyle(21)
-    h_eff_uGMT_15.Draw("same")
+    draw_hist(h_eff_uGMT_15, ROOT.kRed, 21, "same")
 
-    # leg = ROOT.TLegend(0.62,0.13,0.8,0.23)
-    # leg.SetFillStyle(0)
-    # leg.AddEntry(h_eff_uGMT_22,"SingleMu22","lep")
-    # leg.AddEntry(h_eff_uGMT_15,"DoubleMu15","lep")
-    # leg.Draw()
-
+    # Create legend
     leg = ROOT.TLegend(0.456,0.13,0.8,0.23)
     leg.SetFillStyle(0)
     leg.AddEntry(h_eff_uGMT_22,"p^{#mu,L1}_{T} #geq 22, L1 Quality #geq 12","lep")
     leg.AddEntry(h_eff_uGMT_15,"p^{#mu,L1}_{T} #geq 15, L1 Quality #geq 8","lep")
     leg.Draw()
 
-    latex.SetTextSize(0.04)
-    latex.DrawLatexNDC(dataset_x1,0.91,dataset_legend)
+    # Add text to show that the plot is for uGMT except in eta plot
     if var != "eta":
         latex.SetTextSize(0.035)
         latex.DrawLatexNDC(0.68, 0.25, "|#eta| #leq 2.4")
-    # if var == "eta" or var == "phi" or var == "nPV":
-    #     # latex.DrawLatexNDC(0.54, 0.41, "p^{#mu,Reco}_{T} #geq 5 GeV")
-    #     latex.DrawLatexNDC(0.64,0.53,quality_label)
-    #     latex.DrawLatexNDC(0.64, 0.46, pt_l1_label)
-    #     latex.DrawLatexNDC(0.64, 0.39, pt_reco_label)
-    # else:
-    #     latex.DrawLatexNDC(0.64,0.44,quality_label)
-    #     latex.DrawLatexNDC(0.64, 0.39, pt_l1_label)
-    latex.SetTextSize(0.045)
-    latex.DrawLatexNDC(0.12, 0.85, "#font[61]{CMS}")
-    latex.SetTextSize(0.0346)
-    latex.DrawLatexNDC(0.12, 0.81, "#font[52]{Preliminary}")
+    utils.add_dataset_legend(dataset_x1, dataset_legend)
+    utils.add_cms_label_in(L,T)
 
     c.SaveAs(output_dir + "eff_22_15" + key + ".png")
     c.SaveAs(output_dir + "eff_22_15" + key + ".pdf")
