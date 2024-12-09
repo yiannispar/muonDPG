@@ -10,7 +10,6 @@
 <!-- TOC -->
 
 # Install  
-------- 
   
 ```bash
 cmsrel CMSSW_14_0_1  
@@ -21,7 +20,6 @@ git checkout dev/2025
 ```  
 
 # Setup for run
-------- 
 
 Generate submission and plotting scripts with the automation script:
 
@@ -47,7 +45,6 @@ Optional flags
 - `--all`: Include all additional plots (this enables both --eff and --run).
 
 # Run  
-------- 
 
 Before submitting the jobs make sure that you have enabled the certificate for the DAS.
 
@@ -65,7 +62,6 @@ cd muonDPG/condor
  
 
 ## Run multiple datasets
--------
 
 ```bash
 cd muonDPG/condor
@@ -73,7 +69,6 @@ cd muonDPG/condor
 ```
 
 # Make plots
-----------  
 ```
 cd muonDPG/make_plots
 ./make_plots.sh <era of dataset>
