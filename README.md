@@ -58,7 +58,7 @@ cd muonDPG/condor
 ```
 **Notes:**
 - The dataset should match the format of [DAS](https://cmsweb.cern.ch/das/), e.g. `/Muon0/Run2024F-PromptReco-v1/NANOAOD` 
-- The output files will be saved in a /files/ directory inside the specified output directory.
+- The output files will be saved in a `/files/` directory inside the specified output directory.
  
 
 ## Run multiple datasets
