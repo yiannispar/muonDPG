@@ -6,6 +6,8 @@
 - [Run](#run)
     - [Run multiple datasets](#run-multiple-datasets)
 - [Make plots](#make-plots)
+    - [Make plots for each case](#make-plots-for-each-case)
+    - [Make comparison plots](#make-comparison-plots)
 
 <!-- TOC -->
 
@@ -76,5 +78,15 @@ cd muonDPG/make_plots
 **Notes:**
 - Output plots will be saved in a `/plots/` directory inside the specified output directory.
  
+## Make plots for each case 
 
- 
+For finer control, you can create plots for specific cases using individual scripts created during the setup phase:
+
+```
+cd muonDPG/make_plots
+./make_plots_<case>.sh <era_of_dataset>
+```
+
+## Make comparison plots
+
+Work in Progress 
