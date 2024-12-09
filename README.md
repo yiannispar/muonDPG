@@ -71,9 +71,9 @@ cd muonDPG/condor
 ```
 
 # Make plots
-```
+```bash
 cd muonDPG/make_plots
-./make_plots.sh <era of dataset>
+./make_plots.sh <era_of_dataset>
 ```
 **Notes:**
 - Output plots will be saved in a `/plots/` directory inside the specified output directory.
@@ -82,7 +82,7 @@ cd muonDPG/make_plots
 
 For finer control, you can create plots for specific cases using individual scripts created during the setup phase:
 
-```
+```bash
 cd muonDPG/make_plots
 ./make_plots_<case>.sh <era_of_dataset>
 ```
