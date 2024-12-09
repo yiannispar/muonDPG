@@ -249,6 +249,41 @@ echo "DONE"
         os.chmod(script_path, 0o755)
         print(f"Generated {script_path}")
 
+def generate_make_comparison_plots_script(output_base_dir):
+    make_plots_content = f"""#!/bin/bash
+
+era1="$1"
+era2="$2"
+
+############ settings #############
+root_files_dir1="{output_base_dir}/files/$era1"
+root_files_dir2="{output_base_dir}/files/$era2"
+output_dir="{output_base_dir}/plots/${era1}vs${era2}"
+###################################
+
+current_dir=$PWD
+
+echo "Root files dir: ${{root_files_dir1}} and ${{root_files_dir2}}"
+echo "Output dir: ${{output_dir}}"
+echo "Dataset legend: ${{era1}} and ${{era2}}"
+
+mkdir -p $output_dir/eff_comparison/
+
+cd $current_dir/../plotters/
+
+python3 eff_plots_comparison.py -o $output_dir/eff_comparison/ -i1 $root_files_dir1/eff/ -i2 $root_files_dir2/eff/ --legend1 $era1 --legend2 $era2
+
+cd $current_dir
+
+"""
+    script_path = "./make_plots/make_comparison_plots_eff.sh"
+    os.makedirs(os.path.dirname(script_path), exist_ok=True)
+    with open(script_path, "w") as file:
+        file.write(make_plots_content)
+
+    os.chmod(script_path, 0o755)
+    print(f"Generated {script_path}")
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Generate files for automated creation of DPG plots")
@@ -262,3 +297,4 @@ if __name__ == "__main__":
     generate_batch_submission_script(args.output, args.eff, args.run, args.all)
     generate_make_plots_script(args.output, args.eff, args.run, args.all)
     generate_make_plots_scripts(args.output, args.eff, args.run, args.all)
+    generate_make_comparison_plots_script(args.output)
