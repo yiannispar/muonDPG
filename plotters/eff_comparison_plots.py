@@ -1,30 +1,10 @@
 import ROOT
 import argparse
-import utils
 import os
+import utils
+from utils import *
 
-
-ROOT.gStyle.SetPadTickX(1)
-ROOT.gStyle.SetPadTickY(1)
-ROOT.gStyle.SetOptTitle(0)
-ROOT.gStyle.SetOptStat(0)
-ROOT.gStyle.SetLegendBorderSize(0)
-ROOT.gStyle.SetTitleOffset(1.5,"Z")
-ROOT.gStyle.SetPalette(ROOT.kBlueGreenYellow)
-latex = ROOT.TLatex()
-latex.SetTextSize(0.04)
-latex.SetTextFont(42)
-ROOT.gStyle.SetLegendTextSize(0.035)
-
-# Colors
-color_0 = ROOT.TColor.GetColor(87,144,252) #blue
-color_1 = ROOT.TColor.GetColor(248,156,32) #orange
-color_2 = ROOT.TColor.GetColor(228,37,54) #red
-color_3 = ROOT.TColor.GetColor(150,74,139) #purple
-color_4 = ROOT.TColor.GetColor(156,156,161) #gray
-color_5 = ROOT.TColor.GetColor(122,33,221) #purple
-
-#parse arguments
+# Parse arguments
 parser = argparse.ArgumentParser()
 parser.add_argument('--legend1', type=str, help='dataset legend')
 parser.add_argument('--legend2', type=str, help='dataset legend')
@@ -39,14 +19,16 @@ output_dir = args.o
 input_dir1 = args.i1
 input_dir2 = args.i2
 
-## merge root files
+# Merge root files
 utils.merge_root_files(input_dir1)
 utils.merge_root_files(input_dir2)
 
 in_file1 = ROOT.TFile(input_dir1 + "merged_total.root","READ")
 in_file2 = ROOT.TFile(input_dir2 + "merged_total.root","READ")
-c = ROOT.TCanvas("c","c",800,800)
-c.SetGrid()
+
+ROOT.gStyle.SetPadTickX(1)
+ROOT.gStyle.SetPadTickY(1)
+ROOT.gStyle.SetOptTitle(0)
 
 WPs = ["SingleMu_22"]
 
@@ -58,6 +40,9 @@ vars_title = {
     #"nPV": "Number of Vertices"
 }
 
+# Create canvas, receive values for margins
+c, L, R, T, B = utils.create_canvas("c")
+
 ## eff vs var
 ## all regions
 for wp in WPs:
@@ -65,20 +50,20 @@ for wp in WPs:
         key = wp + "_" + var
         c.SetLogx(0)
 
+        # Retrieve and draw histogram for BMTF
         h_passed_BMTF1 = in_file1.Get("BMTF_" + key + "_passed")
         h_passed_BMTF1 = utils.add_overflow(h_passed_BMTF1)
         h_total_BMTF1 = in_file1.Get("BMTF_" + key + "_total")
         h_total_BMTF1 = utils.add_overflow(h_total_BMTF1)
         h_eff_BMTF1 = ROOT.TEfficiency(h_passed_BMTF1,h_total_BMTF1)
-        h_eff_BMTF1.SetMarkerColor(color_0)
-        h_eff_BMTF1.SetLineColor(color_0)
-        h_eff_BMTF1.SetMarkerStyle(20)
-        h_eff_BMTF1.Draw()
+        draw_hist(h_eff_BMTF1, CMS_color_0, 20, "")
+        
+        # Add label and set the limits for the axes
         h_eff_BMTF1.SetTitle(";" + vars_title[var] + ";Efficiency")
         c.Update()
         graph = h_eff_BMTF1.GetPaintedGraph() 
         graph.SetMinimum(0)
-        graph.SetMaximum(1.1)
+        graph.SetMaximum(1.2)
         if var == "pt":
             c.SetLogx(1)
             graph.GetXaxis().SetLimits(1,1000)
@@ -87,57 +72,47 @@ for wp in WPs:
             graph.GetXaxis().SetLimits(0,70)
         c.Update()
 
+        # Retrieve and draw histogram for OMTF
         h_passed_OMTF1 = in_file1.Get("OMTF_" + key + "_passed")
         h_passed_OMTF1 = utils.add_overflow(h_passed_OMTF1)
         h_total_OMTF1 = in_file1.Get("OMTF_" + key + "_total")
         h_total_OMTF1 = utils.add_overflow(h_total_OMTF1)
         h_eff_OMTF1 = ROOT.TEfficiency(h_passed_OMTF1,h_total_OMTF1)
-        h_eff_OMTF1.SetMarkerColor(color_2)
-        h_eff_OMTF1.SetLineColor(color_2)
-        h_eff_OMTF1.SetMarkerStyle(21)
-        h_eff_OMTF1.Draw("same")
+        draw_hist(h_eff_OMTF1, CMS_color_2, 21, "same")
 
+        # Retrieve and draw histogram for EMTF
         h_passed_EMTF1 = in_file1.Get("EMTF_" + key + "_passed")
         h_passed_EMTF1 = utils.add_overflow(h_passed_EMTF1)
         h_total_EMTF1 = in_file1.Get("EMTF_" + key + "_total")
         h_total_EMTF1 = utils.add_overflow(h_total_EMTF1)
         h_eff_EMTF1 = ROOT.TEfficiency(h_passed_EMTF1,h_total_EMTF1)
-        h_eff_EMTF1.SetMarkerColor(color_4)
-        h_eff_EMTF1.SetLineColor(color_4)
-        h_eff_EMTF1.SetMarkerStyle(22)
-        h_eff_EMTF1.SetMarkerSize(1.3)   
-        h_eff_EMTF1.Draw("same")
+        draw_hist(h_eff_EMTF1, CMS_color_4, 22, "same", 1, 1.3)
 
+        # Retrieve and draw histogram for BMTF
         h_passed_BMTF2 = in_file2.Get("BMTF_" + key + "_passed")
         h_passed_BMTF2 = utils.add_overflow(h_passed_BMTF2)
         h_total_BMTF2 = in_file2.Get("BMTF_" + key + "_total")
         h_total_BMTF2 = utils.add_overflow(h_total_BMTF2)
         h_eff_BMTF2 = ROOT.TEfficiency(h_passed_BMTF2,h_total_BMTF2)
-        h_eff_BMTF2.SetMarkerColor(color_1)
-        h_eff_BMTF2.SetLineColor(color_1)
-        h_eff_BMTF2.SetMarkerStyle(24)
-        h_eff_BMTF2.Draw("same")
-
+        draw_hist(h_eff_BMTF2, CMS_color_1, 24, "same")
+    
+        # Retrieve and draw histogram for OMTF
         h_passed_OMTF2 = in_file2.Get("OMTF_" + key + "_passed")
         h_passed_OMTF2 = utils.add_overflow(h_passed_OMTF2)
         h_total_OMTF2 = in_file2.Get("OMTF_" + key + "_total")
         h_total_OMTF2 = utils.add_overflow(h_total_OMTF2)
         h_eff_OMTF2 = ROOT.TEfficiency(h_passed_OMTF2,h_total_OMTF2)
-        h_eff_OMTF2.SetMarkerColor(color_3)
-        h_eff_OMTF2.SetLineColor(color_3)
-        h_eff_OMTF2.SetMarkerStyle(25)
-        h_eff_OMTF2.Draw("same")
-
+        draw_hist(h_eff_OMTF2, CMS_color_3, 25, "same")
+        
+        # Retrieve and draw histogram for EMTF
         h_passed_EMTF2 = in_file2.Get("EMTF_" + key + "_passed")
         h_passed_EMTF2 = utils.add_overflow(h_passed_EMTF2)
         h_total_EMTF2 = in_file2.Get("EMTF_" + key + "_total")
         h_total_EMTF2 = utils.add_overflow(h_total_EMTF2)
         h_eff_EMTF2 = ROOT.TEfficiency(h_passed_EMTF2,h_total_EMTF2)
-        h_eff_EMTF2.SetMarkerColor(color_5)
-        h_eff_EMTF2.SetLineColor(color_5)
-        h_eff_EMTF2.SetMarkerStyle(26)
-        h_eff_EMTF2.Draw("same")
+        draw_hist(h_eff_EMTF2, CMS_color_5, 26, "same")
 
+        # Create legend 
         leg = ROOT.TLegend(0.62,0.13,0.88,0.35)
         leg.SetFillStyle(0)
         leg.SetNColumns(2)
@@ -162,16 +137,14 @@ for wp in WPs:
         else:
             latex.DrawLatexNDC(0.62,0.43,"#bf{Tight L1 quality}")
             latex.DrawLatexNDC(0.64, 0.38, "#bf{p^{#mu,L1}_{T} #geq 22 GeV}")
-        latex.SetTextSize(0.045)
-        latex.DrawLatexNDC(0.1, 0.91, "#font[61]{CMS}")
-        latex.SetTextSize(0.0346)
-        latex.DrawLatexNDC(0.195, 0.91, "#font[52]{Internal}")
-
+        utils.add_cms_label_in(L,T)
 
         c.SaveAs(output_dir + "eff_all_" + key + ".png")
+        c.SaveAs(output_dir + "eff_all_" + key + ".pdf")
 
-c2 = ROOT.TCanvas("c2","c2",800,800)
-c2.SetGrid()
+
+# Create canvas, receive values for margins
+c2, L, R, T, B = utils.create_canvas("c2")
 
 ## BMTF
 for wp in WPs:
@@ -179,20 +152,20 @@ for wp in WPs:
         key = wp + "_" + var
         c2.SetLogx(0)
 
+        # Retrieve and draw histogram for BMTF
         h_passed_BMTF1 = in_file1.Get("BMTF_" + key + "_passed")
         h_passed_BMTF1 = utils.add_overflow(h_passed_BMTF1)
         h_total_BMTF1 = in_file1.Get("BMTF_" + key + "_total")
         h_total_BMTF1 = utils.add_overflow(h_total_BMTF1)
         h_eff_BMTF1 = ROOT.TEfficiency(h_passed_BMTF1,h_total_BMTF1)
-        h_eff_BMTF1.SetMarkerColor(color_0)
-        h_eff_BMTF1.SetLineColor(color_0)
-        h_eff_BMTF1.SetMarkerStyle(20)
-        h_eff_BMTF1.Draw()
+        draw_hist(h_eff_BMTF1, CMS_color_0, 20, "")
+
+        # Add label and set the limits for the axes
         h_eff_BMTF1.SetTitle(";" + vars_title[var] + ";Efficiency")
         c2.Update()
         graph = h_eff_BMTF1.GetPaintedGraph() 
         graph.SetMinimum(0)
-        graph.SetMaximum(1.1)
+        graph.SetMaximum(1.2)
         if var == "pt":
             c2.SetLogx(1)
             graph.GetXaxis().SetLimits(1,1000)
@@ -201,24 +174,19 @@ for wp in WPs:
             graph.GetXaxis().SetLimits(0,70)
         c2.Update()
 
+        # Retrieve and draw histogram for BMTF
         h_passed_BMTF2 = in_file2.Get("BMTF_" + key + "_passed")
         h_passed_BMTF2 = utils.add_overflow(h_passed_BMTF2)
         h_total_BMTF2 = in_file2.Get("BMTF_" + key + "_total")
         h_total_BMTF2 = utils.add_overflow(h_total_BMTF2)
         h_eff_BMTF2 = ROOT.TEfficiency(h_passed_BMTF2,h_total_BMTF2)
-        h_eff_BMTF2.SetMarkerColor(color_1)
-        h_eff_BMTF2.SetLineColor(color_1)
-        h_eff_BMTF2.SetMarkerStyle(24)
-        h_eff_BMTF2.Draw("same")
-
-
-
+        draw_hist(h_eff_BMTF2, CMS_color_1, 24, "same")
+    
+        # Create legend
         leg = ROOT.TLegend(0.62,0.13,0.8,0.24)
         leg.SetFillStyle(0)
         leg.AddEntry(h_eff_BMTF1,f"{dataset_legend1}: BMTF","lep")
         leg.AddEntry(h_eff_BMTF2,f"{dataset_legend2}: BMTF","lep")
-
-
         leg.Draw()
 
         latex.SetTextSize(0.04)
@@ -231,16 +199,14 @@ for wp in WPs:
         else:
             latex.DrawLatexNDC(0.62,0.33,"#bf{Tight L1 quality}")
             latex.DrawLatexNDC(0.64, 0.26, "#bf{p^{#mu,L1}_{T} #geq 22 GeV}")
-        latex.SetTextSize(0.045)
-        latex.DrawLatexNDC(0.1, 0.91, "#font[61]{CMS}")
-        latex.SetTextSize(0.0346)
-        latex.DrawLatexNDC(0.195, 0.91, "#font[52]{Internal}")
-
+        utils.add_cms_label_in(L,T)
 
         c2.SaveAs(output_dir + "eff_BMTF_" + key + ".png")
+        c2.SaveAs(output_dir + "eff_BMTF_" + key + ".pdf")
 
-c3 = ROOT.TCanvas("c3","c3",800,800)
-c3.SetGrid()
+
+# Create canvas, receive values for margins
+c3, L, R, T, B = utils.create_canvas("c3")
 
 ## EMTF
 for wp in WPs:
@@ -248,21 +214,20 @@ for wp in WPs:
         key = wp + "_" + var
         c3.SetLogx(0)
 
+        # Retrieve and draw histogram for EMTF
         h_passed_EMTF1 = in_file1.Get("EMTF_" + key + "_passed")
         h_passed_EMTF1 = utils.add_overflow(h_passed_EMTF1)
         h_total_EMTF1 = in_file1.Get("EMTF_" + key + "_total")
         h_total_EMTF1 = utils.add_overflow(h_total_EMTF1)
         h_eff_EMTF1 = ROOT.TEfficiency(h_passed_EMTF1,h_total_EMTF1)
-        h_eff_EMTF1.SetMarkerColor(color_4)
-        h_eff_EMTF1.SetLineColor(color_4)
-        h_eff_EMTF1.SetMarkerStyle(22)
-        h_eff_EMTF1.SetMarkerSize(1.3)     
-        h_eff_EMTF1.Draw()
+        draw_hist(h_eff_EMTF1, CMS_color_4, 22, "same", 1, 1.3)
+
+        # Add label and set the limits for the axes
         h_eff_EMTF1.SetTitle(";" + vars_title[var] + ";Efficiency")
         c3.Update()
         graph = h_eff_EMTF1.GetPaintedGraph() 
         graph.SetMinimum(0)
-        graph.SetMaximum(1.1)
+        graph.SetMaximum(1.2)
         if var == "pt":
             c3.SetLogx(1)
             graph.GetXaxis().SetLimits(1,1000)
@@ -271,24 +236,19 @@ for wp in WPs:
             graph.GetXaxis().SetLimits(0,70)
         c3.Update()
 
+        # Retrieve and draw histogram for EMTF
         h_passed_EMTF2 = in_file2.Get("EMTF_" + key + "_passed")
         h_passed_EMTF2 = utils.add_overflow(h_passed_EMTF2)
         h_total_EMTF2 = in_file2.Get("EMTF_" + key + "_total")
         h_total_EMTF2 = utils.add_overflow(h_total_EMTF2)
         h_eff_EMTF2 = ROOT.TEfficiency(h_passed_EMTF2,h_total_EMTF2)
-        h_eff_EMTF2.SetMarkerColor(color_5)
-        h_eff_EMTF2.SetLineColor(color_5)
-        h_eff_EMTF2.SetMarkerStyle(26)
-        h_eff_EMTF2.Draw("same")
+        draw_hist(h_eff_EMTF2, CMS_color_5, 26, "same")
 
-
-
+        # Create legend
         leg = ROOT.TLegend(0.62,0.13,0.8,0.24)
         leg.SetFillStyle(0)
         leg.AddEntry(h_eff_EMTF1,f"{dataset_legend1}: EMTF","lep")
         leg.AddEntry(h_eff_EMTF2,f"{dataset_legend2}: EMTF","lep")
-
-
         leg.Draw()
 
         latex.SetTextSize(0.04)
@@ -301,16 +261,14 @@ for wp in WPs:
         else:
             latex.DrawLatexNDC(0.62,0.33,"#bf{Tight L1 quality}")
             latex.DrawLatexNDC(0.64, 0.26, "#bf{p^{#mu,L1}_{T} #geq 22 GeV}")
-        latex.SetTextSize(0.045)
-        latex.DrawLatexNDC(0.1, 0.91, "#font[61]{CMS}")
-        latex.SetTextSize(0.0346)
-        latex.DrawLatexNDC(0.195, 0.91, "#font[52]{Internal}")
+        utils.add_cms_label_in(L,T)
 
 
         c3.SaveAs(output_dir + "eff_EMTF_" + key + ".png")
+        c3.SaveAs(output_dir + "eff_EMTF_" + key + ".pdf")
 
-c4 = ROOT.TCanvas("c4","c4",800,800)
-c4.SetGrid()
+# Create canvas, receive values for margins
+c4, L, R, T, B = utils.create_canvas("c4")
 
 ## OMTF
 for wp in WPs:
@@ -318,20 +276,20 @@ for wp in WPs:
         key = wp + "_" + var
         c4.SetLogx(0)
 
+        # Retrieve and draw histogram for OMTF
         h_passed_OMTF1 = in_file1.Get("OMTF_" + key + "_passed")
         h_passed_OMTF1 = utils.add_overflow(h_passed_OMTF1)
         h_total_OMTF1 = in_file1.Get("OMTF_" + key + "_total")
         h_total_OMTF1 = utils.add_overflow(h_total_OMTF1)
         h_eff_OMTF1 = ROOT.TEfficiency(h_passed_OMTF1,h_total_OMTF1)
-        h_eff_OMTF1.SetMarkerColor(color_2)
-        h_eff_OMTF1.SetLineColor(color_2)
-        h_eff_OMTF1.SetMarkerStyle(21)
-        h_eff_OMTF1.Draw()
+        draw_hist(h_eff_OMTF1, CMS_color_2, 21, "")
+        
+        # Add label and set the limits for the axes
         h_eff_OMTF1.SetTitle(";" + vars_title[var] + ";Efficiency")
         c4.Update()
         graph = h_eff_OMTF1.GetPaintedGraph() 
         graph.SetMinimum(0)
-        graph.SetMaximum(1.1)
+        graph.SetMaximum(1.2)
         if var == "pt":
             c4.SetLogx(1)
             graph.GetXaxis().SetLimits(1,1000)
@@ -345,19 +303,13 @@ for wp in WPs:
         h_total_OMTF2 = in_file2.Get("OMTF_" + key + "_total")
         h_total_OMTF2 = utils.add_overflow(h_total_OMTF2)
         h_eff_OMTF2 = ROOT.TEfficiency(h_passed_OMTF2,h_total_OMTF2)
-        h_eff_OMTF2.SetMarkerColor(color_3)
-        h_eff_OMTF2.SetLineColor(color_3)
-        h_eff_OMTF2.SetMarkerStyle(25)
-        h_eff_OMTF2.Draw("same")
+        draw_hist(h_eff_OMTF2, CMS_color_3, 25, "same")
 
-
-
+        # Create legend
         leg = ROOT.TLegend(0.62,0.13,0.8,0.24)
         leg.SetFillStyle(0)
         leg.AddEntry(h_eff_OMTF1,f"{dataset_legend1}: OMTF","lep")
         leg.AddEntry(h_eff_OMTF2,f"{dataset_legend2}: OMTF","lep")
-
-
         leg.Draw()
 
         latex.SetTextSize(0.04)
@@ -370,13 +322,11 @@ for wp in WPs:
         else:
             latex.DrawLatexNDC(0.62,0.33,"#bf{Tight L1 quality}")
             latex.DrawLatexNDC(0.64, 0.26, "#bf{p^{#mu,L1}_{T} #geq 22 GeV}")
-        latex.SetTextSize(0.045)
-        latex.DrawLatexNDC(0.1, 0.91, "#font[61]{CMS}")
-        latex.SetTextSize(0.0346)
-        latex.DrawLatexNDC(0.195, 0.91, "#font[52]{Internal}")
+        utils.add_cms_label_in(L,T)
 
 
         c4.SaveAs(output_dir + "eff_OMTF_" + key + ".png")
+        c4.SaveAs(output_dir + "eff_OMTF_" + key + ".pdf")
 
 ##----------------------------------------------------------------------------------------------
 ## Ratio plots
@@ -403,8 +353,8 @@ for wp in WPs:
         h_total_BMTF1 = in_file1.Get("BMTF_" + key + "_total")
         h_total_BMTF1 = utils.add_overflow(h_total_BMTF1)
         h_eff_BMTF1 = ROOT.TEfficiency(h_passed_BMTF1,h_total_BMTF1)
-        h_eff_BMTF1.SetMarkerColor(color_0)
-        h_eff_BMTF1.SetLineColor(color_0)
+        h_eff_BMTF1.SetMarkerColor(CMS_color_0)
+        h_eff_BMTF1.SetLineColor(CMS_color_0)
         h_eff_BMTF1.SetMarkerStyle(20)
         h_eff_BMTF1.Draw()
         #h_eff_BMTF1.SetTitle(";" + vars_title[var] + ";Efficiency")
@@ -427,8 +377,8 @@ for wp in WPs:
         h_total_BMTF2 = in_file2.Get("BMTF_" + key + "_total")
         h_total_BMTF2 = utils.add_overflow(h_total_BMTF2)
         h_eff_BMTF2 = ROOT.TEfficiency(h_passed_BMTF2,h_total_BMTF2)
-        h_eff_BMTF2.SetMarkerColor(color_1)
-        h_eff_BMTF2.SetLineColor(color_1)
+        h_eff_BMTF2.SetMarkerColor(CMS_color_1)
+        h_eff_BMTF2.SetLineColor(CMS_color_1)
         h_eff_BMTF2.SetMarkerStyle(24)
         h_eff_BMTF2.Draw("same")
 
@@ -550,8 +500,8 @@ for wp in WPs:
         h_total_OMTF1 = in_file1.Get("OMTF_" + key + "_total")
         h_total_OMTF1 = utils.add_overflow(h_total_OMTF1)
         h_eff_OMTF1 = ROOT.TEfficiency(h_passed_OMTF1,h_total_OMTF1)
-        h_eff_OMTF1.SetMarkerColor(color_2)
-        h_eff_OMTF1.SetLineColor(color_2)
+        h_eff_OMTF1.SetMarkerColor(CMS_color_2)
+        h_eff_OMTF1.SetLineColor(CMS_color_2)
         h_eff_OMTF1.SetMarkerStyle(21)
         h_eff_OMTF1.Draw()
         #h_eff_OMTF1.SetTitle(";" + vars_title[var] + ";Efficiency")
@@ -574,8 +524,8 @@ for wp in WPs:
         h_total_OMTF2 = in_file2.Get("OMTF_" + key + "_total")
         h_total_OMTF2 = utils.add_overflow(h_total_OMTF2)
         h_eff_OMTF2 = ROOT.TEfficiency(h_passed_OMTF2,h_total_OMTF2)
-        h_eff_OMTF2.SetMarkerColor(color_3)
-        h_eff_OMTF2.SetLineColor(color_3)
+        h_eff_OMTF2.SetMarkerColor(CMS_color_3)
+        h_eff_OMTF2.SetLineColor(CMS_color_3)
         h_eff_OMTF2.SetMarkerStyle(25)
         h_eff_OMTF2.Draw("same")
 
@@ -697,8 +647,8 @@ for wp in WPs:
         h_total_EMTF1 = in_file1.Get("EMTF_" + key + "_total")
         h_total_EMTF1 = utils.add_overflow(h_total_EMTF1)
         h_eff_EMTF1 = ROOT.TEfficiency(h_passed_EMTF1,h_total_EMTF1)
-        h_eff_EMTF1.SetMarkerColor(color_4)
-        h_eff_EMTF1.SetLineColor(color_4)
+        h_eff_EMTF1.SetMarkerColor(CMS_color_4)
+        h_eff_EMTF1.SetLineColor(CMS_color_4)
         h_eff_EMTF1.SetMarkerStyle(22)
         h_eff_EMTF1.SetMarkerSize(1.3)
         h_eff_EMTF1.Draw()
@@ -722,8 +672,8 @@ for wp in WPs:
         h_total_EMTF2 = in_file2.Get("EMTF_" + key + "_total")
         h_total_EMTF2 = utils.add_overflow(h_total_EMTF2)
         h_eff_EMTF2 = ROOT.TEfficiency(h_passed_EMTF2,h_total_EMTF2)
-        h_eff_EMTF2.SetMarkerColor(color_5)
-        h_eff_EMTF2.SetLineColor(color_5)
+        h_eff_EMTF2.SetMarkerColor(CMS_color_5)
+        h_eff_EMTF2.SetLineColor(CMS_color_5)
         h_eff_EMTF2.SetMarkerStyle(26)
         h_eff_EMTF2.Draw("same")
 
