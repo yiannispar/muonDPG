@@ -258,7 +258,7 @@ era2="$2"
 ############ settings #############
 root_files_dir1="{output_base_dir}/files/$era1"
 root_files_dir2="{output_base_dir}/files/$era2"
-output_dir="{output_base_dir}/plots/${era1}vs${era2}"
+output_dir="{output_base_dir}/plots/${{era1}}vs${{era2}}"
 ###################################
 
 current_dir=$PWD
