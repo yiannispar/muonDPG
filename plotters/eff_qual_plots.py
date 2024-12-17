@@ -76,7 +76,7 @@ for var in vars_title:
     utils.add_cms_label_out(L,T)
     latex.SetTextSize(0.04)
     latex.SetTextFont(42)
-    latex.DrawLatexNDC(0.69, 0.48, "p^{#mu,L1}_{T} #geq 22 GeV}")
+    latex.DrawLatexNDC(0.69, 0.48, "p^{#mu,L1}_{T} #geq 22 GeV")
     
     c.Update() 
     if var == "pt":# Ensure canvas is updated before modifying histogram settings
