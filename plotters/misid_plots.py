@@ -54,6 +54,8 @@ for var in vars_title:
         c.SetLogx(1)
         graph.GetXaxis().SetLimits(1,1000)
         graph.GetXaxis().SetTitleOffset(1.3)
+    if var == "pt2":
+        graph.GetXaxis().SetLimits(0,60)
     if var == "nPV":
         graph.GetXaxis().SetLimits(0,70)
     c.Update()
