@@ -7,4 +7,5 @@ condor/eff_*
 condor/misid*
 condor/batch_submission.sh
 make_plots/make_plots*
+make_plots/make_comparison_plots*
 plotters/__pycache__/
