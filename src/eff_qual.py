@@ -88,10 +88,10 @@ trig_WP['SingleMu3']  = [14]
 trig_WP['SingleMu4']  = [15]
 
 trig_TF = {}
-# trig_TF['uGMT'] = [0.00, 2.40]
+trig_TF['uGMT'] = [0.00, 2.40]
 trig_TF['BMTF'] = [0.00, 0.83]
-# trig_TF['OMTF'] = [0.83, 1.24]
-# trig_TF['EMTF'] = [1.24, 2.40]
+trig_TF['OMTF'] = [0.83, 1.24]
+trig_TF['EMTF'] = [1.24, 2.40]
 
 
 trg_pt = {}
@@ -101,7 +101,7 @@ trg_pt['SingleMu3']  = [22]
 trg_pt['SingleMu4']  = [22]
 
 ## ================ Histograms ======================
-scale_pt_temp = [0, 2, 3, 4, 5, 6, 7, 8, 10, 12, 14, 16, 18, 20, 22, 25, 30, 35, 45, 60, 75, 100, 140, 160, 180, 200, 250, 300, 500, 1000]
+scale_pt_temp = [0, 2, 3, 4, 5, 6, 7, 8, 10, 12, 14, 16, 18, 20, 22, 25, 30, 35, 45, 60, 75, 100, 140, 160, 180, 200, 250, 300, 500, 2000]
 scale_pt_temp_2 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48, 50, 55, 60]
 scale_pt_2  = array('d', scale_pt_temp_2)
 scale_pt  = array('d', scale_pt_temp)
@@ -173,6 +173,8 @@ for iEvt in range(tree.GetEntries()):
   iTags, iL1Tags, iProbes = [], [], []
 
   nPV = tree.PV_npvs
+
+  # if run > 381316: continue ## EMTF issue: https://twiki.cern.ch/twiki/bin/viewauth/CMS/L1KnownIssues#Muons
 
   ##########################################################
   ###  Loop over RECO muons to find all valid tag muons  ###
@@ -321,7 +323,7 @@ for iEvt in range(tree.GetEntries()):
           if recoPt > pt + 4:
             h_eff_eta[key].Fill(matched,recoEta)
             h_eff_phi[key].Fill(matched,recoPhi)
-            h_eff_nPV[key].Fill(matched,nPV)  
+            # h_eff_nPV[key].Fill(matched,nPV)  
             h_eff_phi_eta[key].Fill(matched,recoEta,recoPhi)
 
             ## End loop: for iL1 in range(tree.l1mu_size):
