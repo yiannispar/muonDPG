@@ -217,7 +217,7 @@ fi
 era="$1"
 
 ############ settings #############
-root_files_dir="{output_base_dir}/files/$era/{option}"
+root_files_dir="{output_base_dir}/files/$era/{option}/"
 output_dir="{output_base_dir}/plots/$era/{option}/"
 ###################################
 
