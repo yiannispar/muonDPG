@@ -227,14 +227,16 @@ echo "Root files dir: ${{root_files_dir}}"
 echo "Output dir: ${{output_dir}}"
 echo "Dataset legend: ${{era}}"
 
-mkdir -p $output_dir/
+mkdir -p $output_dir
+
+cd $root_files_dir
 
 rm -rf merged_total.root
 hadd merged_total.root *.root
 
 cd $current_dir/../plotters/
 
-python3 {option}_plots.py -o $output_dir/ -i $root_files_dir/ --legend "$era"
+python3 {option}_plots.py -o $output_dir -i $root_files_dir --legend "$era"
 
 cd $current_dir
 
