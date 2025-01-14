@@ -1,7 +1,6 @@
 condor/submit_nano.sh
 condor/__pycache__
-condor/log/*err*
-condor/log/*out*
+condor/log/*
 condor/*.cc
 condor/eff_*
 condor/misid*
