@@ -95,7 +95,7 @@ for var in vars_title:
 
     latex.SetTextSize(0.04)
     latex.SetTextFont(42)
-    latex.DrawLatexNDC(0.6,0.6,"Tight L1 quality")
+    latex.DrawLatexNDC(0.6,0.6,"L1T Quality #geq 12")
     utils.add_dataset_legend(dataset_x1, dataset_legend)
     utils.add_cms_label_in(L,T)
 

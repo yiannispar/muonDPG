@@ -75,8 +75,8 @@ for var in vars_title:
     # Create legend
     leg = ROOT.TLegend(0.456,0.13,0.8,0.23)
     leg.SetFillStyle(0)
-    leg.AddEntry(h_eff_BMTF_1,"p^{#mu,L1}_{T} #geq 22, L1 Quality #geq 12","lep")
-    leg.AddEntry(h_eff_BMTF_2,"p^{#mu,L1}_{T} #geq 11, L1 Quality #geq 14","lep")
+    leg.AddEntry(h_eff_BMTF_1,"p^{#mu,L1}_{T} #geq 22, L1T Quality #geq 12","lep")
+    leg.AddEntry(h_eff_BMTF_2,"p^{#mu,L1}_{T} #geq 11, L1T Quality #geq 14","lep")
     leg.Draw()
 
     # Add text to show that the plot is for BMTF only except in eta plot

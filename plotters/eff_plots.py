@@ -43,7 +43,7 @@ for wp in WPs:
         key = wp + "_" + var
         c.SetLogx(0)
         values = wp_values[wp]
-        quality_label = f"L1 quality #geq {values['quality']}"
+        quality_label = f"L1T Quality #geq {values['quality']}"
         pt_l1_label = f"p^{{#mu,L1}}_{{T}} #geq {values['pt_l1']} GeV"
         pt_reco_label = f"p^{{#mu,Reco}}_{{T}} #geq {values['pt_reco']} GeV"
 
