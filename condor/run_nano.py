@@ -73,6 +73,11 @@ def format_files_in_queue(files_found):
         else: file_string += file_
     return file_string
 
+## Create log directory
+log_dir = f"log/{era}/Muon{muon}/"
+if not os.path.exists(log_dir):
+    os.makedirs(log_dir)
+
 ## write condor submit file
 condor_submit_file = open(args.submitName,"w")
 condor_submit_file.write('''
@@ -81,9 +86,9 @@ use_x509userproxy = true
 
 arguments = ''' + executable + ''' $(Item) ''' + args.output + ''' ''' + json_file_path + ''' ''' + pwd +''' 
 
-error   = log/err.$(Process)
-output  = log/out.$(Process)
-log     = log/logFile.log
+error   = ''' +log_dir+'''/''' + exec_name + '''_$(Process).err
+output  = ''' +log_dir+'''/''' + exec_name + '''_$(Process).out
+log     = ''' +log_dir+'''/''' + exec_name + '''_$(Process).log
 
 JobBatchName = muonDPG_''' + era + '''_''' +muon+'''_''' + exec_name + '''
 +JobFlavour = "''' + args.jobFlav + '''"
