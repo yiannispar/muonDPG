@@ -56,11 +56,11 @@ python3 run_nano.py --dataset "$dataset" --exec eff_qual.py --output "$output_di
         batch_submission_content +=f"""
 sleep 5
 
-python3 run_nano.py --dataset "$dataset" --exec eff_vs_run.py --output "$output_dir/eff_run/" --jobFlav workday --submitName eff_run_${{year_run}}.sh --submit
+python3 run_nano.py --dataset "$dataset" --exec eff_vs_run.py --output "$output_dir/eff_vs_run/" --jobFlav workday --submitName eff_vs_run_${{year_run}}.sh --submit
 
 sleep 5
 
-python3 run_nano.py --dataset "$dataset" --exec misid_vs_run.py --output "$output_dir/misid_run/" --jobFlav workday --submitName misid_run_${{year_run}}.sh --submit
+python3 run_nano.py --dataset "$dataset" --exec misid_vs_run.py --output "$output_dir/misid_vs_run/" --jobFlav workday --submitName misid_vs_run_${{year_run}}.sh --submit
 """
 
     script_path = "./condor/batch_submission.sh"
@@ -164,26 +164,26 @@ python3 eff_qual_plots.py -o $output_dir/eff_qual/ -i $root_files_dir/eff_qual/ 
     if include_run:
         make_plots_content += f"""
 ############ Efficiency vs Run #############
-mkdir -p $output_dir/eff_run/
-cd $root_files_dir/eff_run/
+mkdir -p $output_dir/eff_vs_run/
+cd $root_files_dir/eff_vs_run/
 
 rm -rf merged_total.root
 hadd merged_total.root *.root
 
 cd $current_dir/../plotters/
 
-python3 eff_vs_run_plots.py -o $output_dir/eff_run/ -i $root_files_dir/eff_run/ --legend "$era" 
+python3 eff_vs_run_plots.py -o $output_dir/eff_vs_run/ -i $root_files_dir/eff_vs_run/ --legend "$era" 
 
 ############ Charge misidentification vs run #############
-mkdir -p $output_dir/misid_run/
-cd $root_files_dir/misid_run/
+mkdir -p $output_dir/misid_vs_run/
+cd $root_files_dir/misid_vs_run/
 
 rm -rf merged_total.root
 hadd merged_total.root *.root
 
 cd $current_dir/../plotters/
 
-python3 misid_vs_run_plots.py -o $output_dir/misid_run/ -i $root_files_dir/misid_run/ --legend "$era"
+python3 misid_vs_run_plots.py -o $output_dir/misid_vs_run/ -i $root_files_dir/misid_vs_run/ --legend "$era"
 """
 
 
