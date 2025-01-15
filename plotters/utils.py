@@ -135,3 +135,48 @@ def create_canvas(canvas_name, L=0.100, R=0.100, T=0.100, B=0.100):
     canvas.SetGrid()
     return canvas, L, R, T, B 
 
+
+#------------------------------------------------------------------------
+# Creates a canvas with 1000_800 frame
+def create_canvas_wide(canvas_name, L=0.100, R=0.100, T=0.100, B=0.100):
+    canvas = ROOT.TCanvas(canvas_name, canvas_name, 800, 600)
+    canvas.SetLeftMargin  (L)
+    canvas.SetRightMargin (R)
+    canvas.SetTopMargin   (T)
+    canvas.SetBottomMargin(B)
+    canvas.SetGrid()
+    return canvas, L, R, T, B 
+
+# Draws CMS label in-frame
+def add_cms_label_in_wide(L, T):
+    latex.SetTextSize(0.045)
+    latex.DrawLatexNDC(L+0.02, 1-(T+0.05), "#font[61]{CMS}")
+    latex.SetTextSize(0.0346)
+    latex.DrawLatexNDC(L+0.02, 1-(T+0.09), "#font[52]{Preliminary}")
+
+# Draws CMS label out-of-frame
+def add_cms_label_out_wide(L,T):
+    latex.SetTextSize(0.045)
+    latex.DrawLatexNDC(L, 1-(T-0.01), "#font[61]{CMS}")
+    latex.SetTextSize(0.0346)
+    latex.DrawLatexNDC(L+0.075, 1-(T-0.01), "#font[52]{Preliminary}")
+
+# Legend text for each era
+def get_dataset_legend_wide(legend, R=0.1):
+    legend_map = {
+        #Legend: (Legend text, x coordinate)
+        '2024B': ('2024B (0.13 fb^{-1})', 1-(R+0.195)),
+        '2024C': ('2024C (7.24 fb^{-1})', 1-(R+0.195)),
+        '2024D': ('2024D (7.96 fb^{-1})', 1-(R+0.195)),
+        '2024E': ('2024E (11.32 fb^{-1})', 1-(R+0.215)),
+        '2024F': ('2024F (27.76 fb^{-1})', 1-(R+0.215)),
+        '2024G': ('2024G (37.77 fb^{-1})', 1-(R+0.215)),
+        '2024H': ('2024H (5.44 fb^{-1})', 1-(R+0.195)),
+        '2024I': ('2024I (11.47 fb^{-1})', 1-(R+0.215)),
+        '2024':  ('109 fb^{-1} (13.6 TeV)', 1-(R+0.215)),
+    }
+    
+    if legend in legend_map:
+        return legend_map[legend]
+    else:
+        return (legend, (1-R-0.1))  # Default case
