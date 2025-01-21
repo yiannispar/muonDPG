@@ -8,6 +8,7 @@
 - [Make plots](#make-plots)
     - [Make plots for each case](#make-plots-for-each-case)
     - [Make comparison plots](#make-comparison-plots)
+- [Useful links](#useful-links)
 
 <!-- TOC -->
 
@@ -90,3 +91,7 @@ cd muonDPG/make_plots
 ## Make comparison plots
 
 Work in Progress 
+
+# Useful links
+
+- You can find the golden json files needed in `/eos/user/c/cmsdqm/www/CAF/certification/`
