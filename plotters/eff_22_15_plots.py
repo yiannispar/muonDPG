@@ -73,7 +73,7 @@ for var in vars_title:
     draw_hist(h_eff_uGMT_15, ROOT.kRed, 21, "same")
 
     # Create legend
-    leg = ROOT.TLegend(0.456,0.13,0.8,0.23)
+    leg = ROOT.TLegend(0.43,0.13,0.8,0.23)
     leg.SetFillStyle(0)
     leg.AddEntry(h_eff_uGMT_22,"p^{#mu,L1}_{T} #geq 22, L1T Quality #geq 12","lep")
     leg.AddEntry(h_eff_uGMT_15,"p^{#mu,L1}_{T} #geq 15, L1T Quality #geq 8","lep")
@@ -82,7 +82,7 @@ for var in vars_title:
     # Add text to show that the plot is for uGMT except in eta plot
     if var != "eta":
         latex.SetTextSize(0.035)
-        latex.DrawLatexNDC(0.68, 0.25, "|#eta| #leq 2.4")
+        latex.DrawLatexNDC(0.64, 0.25, "|#eta| #leq 2.4")
     utils.add_dataset_legend(dataset_x1, dataset_legend)
     utils.add_cms_label_in(L,T)
 
