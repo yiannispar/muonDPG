@@ -28,11 +28,11 @@ output_dir="{output_base_dir}/files/$year_run"
 mkdir -p "$output_dir"
 
 # Submit the jobs to condor
-python3 run_nano.py --dataset "$dataset" --exec eff.py --output "$output_dir/eff/" --jobFlav workday --submitName eff_${{year_run}}.sh --submit
+python3 run_nano.py --dataset "$dataset" --exec eff.py --output "$output_dir/eff/" --jobFlav testmatch --submitName eff_${{year_run}}.sh --submit
 
 sleep 5
 
-python3 run_nano.py --dataset "$dataset" --exec misid.py --output "$output_dir/misid/" --jobFlav workday --submitName misid_${{year_run}}.sh --submit 
+python3 run_nano.py --dataset "$dataset" --exec misid.py --output "$output_dir/misid/" --jobFlav testmatch --submitName misid_${{year_run}}.sh --submit 
 """
     if include_all:
         include_eff=True
@@ -42,25 +42,25 @@ python3 run_nano.py --dataset "$dataset" --exec misid.py --output "$output_dir/m
         batch_submission_content +=f"""
 sleep 5
 
-python3 run_nano.py --dataset "$dataset" --exec eff_22_15.py --output "$output_dir/eff_22_15/" --jobFlav workday --submitName eff_22_15_${{year_run}}.sh --submit
+python3 run_nano.py --dataset "$dataset" --exec eff_22_15.py --output "$output_dir/eff_22_15/" --jobFlav testmatch --submitName eff_22_15_${{year_run}}.sh --submit
 
 sleep 5
 
-python3 run_nano.py --dataset "$dataset" --exec eff_22_11.py --output "$output_dir/eff_22_11/" --jobFlav workday --submitName eff_22_11_${{year_run}}.sh --submit
+python3 run_nano.py --dataset "$dataset" --exec eff_22_11.py --output "$output_dir/eff_22_11/" --jobFlav testmatch --submitName eff_22_11_${{year_run}}.sh --submit
 
 sleep 5
 
-python3 run_nano.py --dataset "$dataset" --exec eff_qual.py --output "$output_dir/eff_qual/" --jobFlav workday --submitName eff_qual_${{year_run}}.sh --submit 
+python3 run_nano.py --dataset "$dataset" --exec eff_qual.py --output "$output_dir/eff_qual/" --jobFlav testmatch --submitName eff_qual_${{year_run}}.sh --submit 
 """        
     if include_run:
         batch_submission_content +=f"""
 sleep 5
 
-python3 run_nano.py --dataset "$dataset" --exec eff_vs_run.py --output "$output_dir/eff_vs_run/" --jobFlav workday --submitName eff_vs_run_${{year_run}}.sh --submit
+python3 run_nano.py --dataset "$dataset" --exec eff_vs_run.py --output "$output_dir/eff_vs_run/" --jobFlav testmatch --submitName eff_vs_run_${{year_run}}.sh --submit
 
 sleep 5
 
-python3 run_nano.py --dataset "$dataset" --exec misid_vs_run.py --output "$output_dir/misid_vs_run/" --jobFlav workday --submitName misid_vs_run_${{year_run}}.sh --submit
+python3 run_nano.py --dataset "$dataset" --exec misid_vs_run.py --output "$output_dir/misid_vs_run/" --jobFlav testmatch --submitName misid_vs_run_${{year_run}}.sh --submit
 """
 
     script_path = "./condor/batch_submission.sh"
